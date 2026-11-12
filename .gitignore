@@ -1,49 +1,33 @@
-# Build
+HELP.md
 target/
-build/
-out/
-
-# Gradle
-.gradle/
-
-# Maven
 .mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
 
-# IDE
-.idea/
-*.iml
-.vscode/
-.settings/
-.project
+### STS ###
+.apt_generated
 .classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
-# Java
-*.class
-hs_err_pid*
-replay_pid*
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
 
-# Logs
-*.log
-logs/
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-# Environment and secrets
-.env
-.env.*
-!.env.example
-application-local.yml
-application-local.yaml
-application-secret.yml
-application-secret.yaml
-
-# OS
-.DS_Store
-Thumbs.db
-Desktop.ini
-
-# Docker
-.docker/
-
-# Temporary files
-*.tmp
-*.swp
-*.bak
+### VS Code ###
+.vscode/

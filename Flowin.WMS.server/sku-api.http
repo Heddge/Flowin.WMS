@@ -1,0 +1,26 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+###
+
+###
+GET localhost:8081/api/skus
+
+###
+
+###
+POST http://localhost:8081/api/skus
+Content-Type: application/json
+Accept: application/json
+
+{
+    "skuName": "Xiaomi Mi 11 Lite 5G NE",
+    "skuCategoryName": "Electronics",
+    "volume": 700,
+    "weight": 250,
+    "height": 50,
+    "width": 70,
+    "length": 120
+}
+###

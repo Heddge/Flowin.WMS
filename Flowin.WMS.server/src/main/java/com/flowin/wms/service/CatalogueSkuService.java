@@ -6,6 +6,7 @@ import com.flowin.wms.entity.CatalogueSku;
 import com.flowin.wms.entity.SkuCategory;
 import com.flowin.wms.mapper.CatalogueSkuMapper;
 import com.flowin.wms.repository.CatalogueSkuRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,18 +52,9 @@ public class CatalogueSkuService {
                 .map(catalogueSkuMapper::toCatalogueSkuResponse).toList();
     }
 
-    public Optional<CatalogueSkuResponse> postSkuToSkus(@RequestBody CatalogueSkuRequest catalogueSkuRequest)
+    public Optional<CatalogueSkuResponse> postSkuToSkus(@Valid @RequestBody CatalogueSkuRequest catalogueSkuRequest)
     {
         if (catalogueSkuRequest == null)
-            return Optional.empty();
-
-        if (catalogueSkuRequest.skuCategoryName().isBlank() ||
-                catalogueSkuRequest.skuName().isBlank() ||
-                catalogueSkuRequest.height() < 0 ||
-                catalogueSkuRequest.length() < 0 ||
-                catalogueSkuRequest.volume() < 0 ||
-                catalogueSkuRequest.weight() < 0 ||
-                catalogueSkuRequest.width() < 0)
             return Optional.empty();
 
         Optional<SkuCategory> skuCategory = skuCategoryService.getCategoryByName(catalogueSkuRequest.skuCategoryName());

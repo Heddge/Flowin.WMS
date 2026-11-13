@@ -2,7 +2,6 @@ package com.flowin.wms.controller;
 
 import com.flowin.wms.dto.CatalogueSkuRequest;
 import com.flowin.wms.dto.CatalogueSkuResponse;
-import com.flowin.wms.entity.CatalogueSku;
 import com.flowin.wms.service.CatalogueSkuService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +31,7 @@ public class CatalogueSkuController {
         return catalogueSkuService.getAllSkusDto();
     }
 
-    @PostMapping("/api/skus/")
+    @PostMapping("/api/skus")
     public ResponseEntity<CatalogueSkuResponse> postSkuToSkus(@RequestBody CatalogueSkuRequest catalogueSkuRequest)
     {
         return catalogueSkuService.postSkuToSkus(catalogueSkuRequest)

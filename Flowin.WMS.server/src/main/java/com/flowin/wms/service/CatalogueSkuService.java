@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class CatalogueSkuService {
     private final CatalogueSkuRepository repository;
     private final CatalogueSkuMapper catalogueSkuMapper;

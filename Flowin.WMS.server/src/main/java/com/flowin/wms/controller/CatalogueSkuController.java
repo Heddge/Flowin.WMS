@@ -3,6 +3,7 @@ package com.flowin.wms.controller;
 import com.flowin.wms.dto.CatalogueSkuRequest;
 import com.flowin.wms.dto.CatalogueSkuResponse;
 import com.flowin.wms.service.CatalogueSkuService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,7 @@ public class CatalogueSkuController {
     }
 
     @PostMapping("/api/skus")
-    public ResponseEntity<CatalogueSkuResponse> postSkuToSkus(@RequestBody CatalogueSkuRequest catalogueSkuRequest)
+    public ResponseEntity<CatalogueSkuResponse> postSkuToSkus(@Valid @RequestBody CatalogueSkuRequest catalogueSkuRequest)
     {
         return catalogueSkuService.postSkuToSkus(catalogueSkuRequest)
                 .map(x -> created(URI.create("/api/skus/" + x.skuCode())).body(x)).orElseGet(() -> ResponseEntity.notFound().build());

@@ -4,6 +4,7 @@ import com.flowin.wms.dto.CatalogueSkuRequest;
 import com.flowin.wms.dto.CatalogueSkuResponse;
 import com.flowin.wms.entity.CatalogueSku;
 import com.flowin.wms.entity.SkuCategory;
+import com.flowin.wms.exception.InvalidArgumentException;
 import com.flowin.wms.mapper.CatalogueSkuMapper;
 import com.flowin.wms.repository.CatalogueSkuRepository;
 import jakarta.validation.Valid;
@@ -32,8 +33,10 @@ public class CatalogueSkuService {
     public Optional<CatalogueSku> getSkuById(Integer catalogueId)
     {
         if (catalogueId == null || catalogueId < 0)
-            throw new IllegalArgumentException("IllegalArgumentException. placed -> " +
-                    "CatalogueSkuService::getSkuById(id). Value was null or less than 0");
+            throw new InvalidArgumentException(
+                    "Value was null or less than zero.",
+                    "catalogueId",
+                    "placed -> CatalogueSkuService::getSkuById(catalogueId).");
 
         return repository.findById(catalogueId);
     }
@@ -46,8 +49,10 @@ public class CatalogueSkuService {
     public Optional<CatalogueSkuResponse> getSkuByIdDto(Integer catalogueId)
     {
         if (catalogueId == null || catalogueId < 0)
-            throw new IllegalArgumentException("IllegalArgumentException. placed -> " +
-                    "CatalogueSkuService::getSkuById(id). Value was null or less than 0");
+            throw new InvalidArgumentException(
+                    "Value was null or less than zero.",
+                    "catalogueId",
+                    "placed -> CatalogueSkuService::getSkuByIdDto(catalogueId).");
 
         return getSkuById(catalogueId).map(catalogueSkuMapper::toCatalogueSkuResponse);
     }
@@ -58,11 +63,12 @@ public class CatalogueSkuService {
                 .map(catalogueSkuMapper::toCatalogueSkuResponse).toList();
     }
 
-    public Optional<CatalogueSkuResponse> postSkuToSkus(@Valid @RequestBody CatalogueSkuRequest catalogueSkuRequest)
-    {
+    public Optional<CatalogueSkuResponse> postSkuToSkus(@Valid @RequestBody CatalogueSkuRequest catalogueSkuRequest) throws InvalidArgumentException {
         if (catalogueSkuRequest == null)
-            throw new IllegalArgumentException("IllegalArgumentException. placed -> " +
-                    "CatalogueSkuService::postSkuToSkus(CatalogueSkuRequest). Value was null.");
+            throw new InvalidArgumentException(
+                    "InvalidArgumentException. Value was null.",
+                    "catalogueSkuRequest",
+                    "placed -> CatalogueSkuService::postSkuToSkus(CatalogueSkuRequest).");
 
         Optional<SkuCategory> skuCategory = skuCategoryService.getCategoryByName(catalogueSkuRequest.skuCategoryName());
 

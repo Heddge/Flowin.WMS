@@ -1,6 +1,7 @@
 package com.flowin.wms.service;
 
 import com.flowin.wms.entity.SkuCategory;
+import com.flowin.wms.exception.InvalidArgumentException;
 import com.flowin.wms.repository.SkuCategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +20,10 @@ public class SkuCategoryService {
     public Optional<SkuCategory> getCategoryById(Integer categoryId)
     {
         if (categoryId == null || categoryId < 0)
-            throw new IllegalArgumentException("IllegalArgumentException. placed -> " +
-                    "SkuCategoryService::getCategoryById(id). Value was null or less than 0.");
+            throw new InvalidArgumentException(
+                    "Value was null or less than zero.",
+                    "categoryId",
+                    "placed -> SkuCategoryService::getCategoryById(categoryId).");
 
         return repository.findById(categoryId);
     }
@@ -28,9 +31,11 @@ public class SkuCategoryService {
     public Optional<SkuCategory> getCategoryByName(String name)
     {
         if (name == null || name.isBlank())
-            throw new IllegalArgumentException("IllegalArgumentException. placed -> " +
-                    "SkuCategoryService::getCategoryByName(name). Value was null or empty.");
-        
+            throw new InvalidArgumentException(
+                    "Value was null or empty.",
+                    "name",
+                    "placed -> SkuCategoryService::getCategoryByName(name).");
+
         return repository.findBySkuCategoryName(name);
     }
 

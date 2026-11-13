@@ -6,7 +6,10 @@ import com.flowin.wms.service.CatalogueSkuService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
+
+import static org.springframework.http.ResponseEntity.created;
 
 @RestController
 public class CatalogueSkuController {
@@ -35,6 +38,6 @@ public class CatalogueSkuController {
     public ResponseEntity<CatalogueSkuResponse> postSkuToSkus(@RequestBody CatalogueSkuRequest catalogueSkuRequest)
     {
         return catalogueSkuService.postSkuToSkus(catalogueSkuRequest)
-                .map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+                .map(x -> created(URI.create("/api/skus/" + x.skuCode())).body(x)).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

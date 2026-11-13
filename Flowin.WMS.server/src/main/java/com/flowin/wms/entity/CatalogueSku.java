@@ -1,6 +1,7 @@
 package com.flowin.wms.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 
 @Entity
 @Table(name = "catalogue_skus")
@@ -13,14 +14,19 @@ public class CatalogueSku {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sku_category_id", nullable = false)
     private SkuCategory skuCategory;
+    @Min(value = 0)
     @Column(nullable = false)
     private int volume;
+    @Min(value = 0)
     @Column(nullable = false)
     private int weight;
+    @Min(value = 0)
     @Column(nullable = false)
     private int height;
+    @Min(value = 0)
     @Column(nullable = false)
     private int width;
+    @Min(value = 0)
     @Column(nullable = false)
     private int length;
 

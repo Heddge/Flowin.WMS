@@ -1,6 +1,7 @@
 package com.flowin.wms.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 
 @Entity
 @Table(name = "sku_categories")
@@ -8,6 +9,7 @@ public class SkuCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer skuCategoryId;
+    @Min(value = 0)
     @Column(nullable = false, length = 255)
     private String skuCategoryName;
 

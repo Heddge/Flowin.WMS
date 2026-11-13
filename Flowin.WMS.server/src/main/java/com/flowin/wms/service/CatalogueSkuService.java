@@ -31,7 +31,10 @@ public class CatalogueSkuService {
 
     public Optional<CatalogueSku> getSkuById(Integer catalogueId)
     {
-        // проверок catalogueId не нужно, в дальнейшем - обработка ошибок связанных с этим.
+        if (catalogueId == null || catalogueId < 0)
+            throw new IllegalArgumentException("IllegalArgumentException. placed -> " +
+                    "CatalogueSkuService::getSkuById(id). Value was null or less than 0");
+
         return repository.findById(catalogueId);
     }
 
@@ -42,7 +45,10 @@ public class CatalogueSkuService {
 
     public Optional<CatalogueSkuResponse> getSkuByIdDto(Integer catalogueId)
     {
-        // проверок catalogueId не нужно, в дальнейшем - обработка ошибок связанных с этим.
+        if (catalogueId == null || catalogueId < 0)
+            throw new IllegalArgumentException("IllegalArgumentException. placed -> " +
+                    "CatalogueSkuService::getSkuById(id). Value was null or less than 0");
+
         return getSkuById(catalogueId).map(catalogueSkuMapper::toCatalogueSkuResponse);
     }
 
@@ -55,7 +61,8 @@ public class CatalogueSkuService {
     public Optional<CatalogueSkuResponse> postSkuToSkus(@Valid @RequestBody CatalogueSkuRequest catalogueSkuRequest)
     {
         if (catalogueSkuRequest == null)
-            return Optional.empty();
+            throw new IllegalArgumentException("IllegalArgumentException. placed -> " +
+                    "CatalogueSkuService::postSkuToSkus(CatalogueSkuRequest). Value was null.");
 
         Optional<SkuCategory> skuCategory = skuCategoryService.getCategoryByName(catalogueSkuRequest.skuCategoryName());
 

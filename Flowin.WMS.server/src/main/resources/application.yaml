@@ -17,3 +17,8 @@ spring:
         format_sql: true
 server:
   port: 8081
+
+logging:
+  level:
+    org.springframework.web.servlet.mvc.method.annotation: TRACE
+    org.springframework.http.converter: TRACE

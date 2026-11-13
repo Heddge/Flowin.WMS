@@ -13,7 +13,15 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http)
     {
         http.authorizeHttpRequests(auth ->
-                auth.requestMatchers(HttpMethod.GET, "/api/health").permitAll().anyRequest().authenticated());
+                auth.requestMatchers(HttpMethod.GET, "/api/health").permitAll());
+        http.authorizeHttpRequests(auth ->
+                auth.requestMatchers(HttpMethod.GET, "/api/skus").permitAll());
+        http.authorizeHttpRequests(auth ->
+                auth.requestMatchers(HttpMethod.GET, "/api/skus/1").permitAll());
+        http.authorizeHttpRequests(auth ->
+                auth.requestMatchers(HttpMethod.GET, "/api/skus/10").permitAll());
+        http.authorizeHttpRequests(auth ->
+                auth.requestMatchers(HttpMethod.GET, "/api/skus/2").permitAll().anyRequest().authenticated());
         http.formLogin(Customizer.withDefaults()); // needs to turning off after implementing JWT system
         return http.build();
     }

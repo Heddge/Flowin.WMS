@@ -23,4 +23,11 @@ public class ExceptionResponses {
             String location
     ) {
     }
+
+    public record NotFoundResponse(
+            int code,
+            String message,
+            String argument
+    ) {
+    }
 }

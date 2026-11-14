@@ -3,6 +3,7 @@ package com.flowin.wms.controller;
 import com.flowin.wms.dto.ExceptionResponses;
 import com.flowin.wms.exception.CategoryNotFoundException;
 import com.flowin.wms.exception.InvalidArgumentException;
+import com.flowin.wms.exception.SkuNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -46,6 +47,18 @@ public class GlobalExceptionController {
                 new ExceptionResponses.CategoryResponse(404,
                         exception.getMessage(),
                         exception.getNeededCategory())
+        );
+    }
+
+    @ExceptionHandler(SkuNotFoundException.class)
+    public ResponseEntity<ExceptionResponses.NotFoundResponse> handleSkuNotFoundException(
+            SkuNotFoundException exception
+    )
+    {
+        return ResponseEntity.badRequest().body(
+                new ExceptionResponses.NotFoundResponse(404,
+                        exception.getMessage(),
+                        exception.getExceptionSku())
         );
     }
 }

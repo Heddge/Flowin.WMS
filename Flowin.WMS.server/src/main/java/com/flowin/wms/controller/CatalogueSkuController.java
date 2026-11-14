@@ -2,6 +2,7 @@ package com.flowin.wms.controller;
 
 import com.flowin.wms.dto.CatalogueSkuRequest;
 import com.flowin.wms.dto.CatalogueSkuResponse;
+import com.flowin.wms.exception.SkuNotFoundException;
 import com.flowin.wms.service.CatalogueSkuService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,16 @@ public class CatalogueSkuController {
     @GetMapping("/api/skus/{id}")
     public ResponseEntity<CatalogueSkuResponse> getSkuById(@PathVariable("id") Integer id)
     {
-        return catalogueSkuService.getSkuByIdDto(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        CatalogueSkuResponse result = catalogueSkuService.getSkuByIdDto(id);
+
+        if (result == null)
+            throw new SkuNotFoundException(
+                    String.format("There isn`t sku with id %s", id),
+                    id.toString(),
+                    "CatalogueSkuService::getSkuById(catalogueId)"
+            );
+
+        return ResponseEntity.ok().body(result);
     }
 
     @GetMapping("/api/skus")

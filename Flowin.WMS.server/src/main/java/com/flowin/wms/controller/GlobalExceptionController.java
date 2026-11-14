@@ -5,6 +5,8 @@ import com.flowin.wms.exception.CategoryNotFoundException;
 import com.flowin.wms.exception.InvalidArgumentException;
 import com.flowin.wms.exception.SavingFailException;
 import com.flowin.wms.exception.SkuNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -56,7 +58,7 @@ public class GlobalExceptionController {
             SkuNotFoundException exception
     )
     {
-        return ResponseEntity.badRequest().body(
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new ExceptionResponses.NotFoundResponse(404,
                         exception.getMessage(),
                         exception.getExceptionSku())

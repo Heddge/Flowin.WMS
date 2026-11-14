@@ -10,14 +10,11 @@ import com.flowin.wms.exception.SavingFailException;
 import com.flowin.wms.exception.SkuNotFoundException;
 import com.flowin.wms.mapper.CatalogueSkuMapper;
 import com.flowin.wms.repository.CatalogueSkuRepository;
-import jakarta.validation.Valid;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -60,7 +57,7 @@ public class CatalogueSkuService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<CatalogueSkuResponse> getSkuByIdDto(Integer catalogueId)
+    public CatalogueSkuResponse getSkuByIdDto(Integer catalogueId)
     {
         if (catalogueId == null || catalogueId < 1)
             throw new InvalidArgumentException(
@@ -68,7 +65,7 @@ public class CatalogueSkuService {
                     "catalogueId",
                     "placed in CatalogueSkuService::getSkuByIdDto(catalogueId).");
 
-        return Optional.ofNullable(catalogueSkuMapper.toCatalogueSkuResponse(getSkuById(catalogueId)));
+        return catalogueSkuMapper.toCatalogueSkuResponse(getSkuById(catalogueId));
 
     }
 
@@ -79,16 +76,16 @@ public class CatalogueSkuService {
                 .map(catalogueSkuMapper::toCatalogueSkuResponse).toList();
     }
 
-    public CatalogueSkuResponse postSkuToSkus(@Valid @RequestBody CatalogueSkuRequest catalogueSkuRequest) throws InvalidArgumentException {
+    public CatalogueSkuResponse postSkuToSkus(CatalogueSkuRequest catalogueSkuRequest) {
         if (catalogueSkuRequest == null)
             throw new InvalidArgumentException(
                     "InvalidArgumentException. Value was null.",
                     "catalogueSkuRequest",
                     "placed -> CatalogueSkuService::postSkuToSkus(CatalogueSkuRequest).");
 
-        Optional<SkuCategory> skuCategory = skuCategoryService.getCategoryByName(catalogueSkuRequest.skuCategoryName());
+        SkuCategory skuCategory = skuCategoryService.getCategoryByName(catalogueSkuRequest.skuCategoryName());
 
-        if (skuCategory.isEmpty())
+        if (skuCategory == null)
             throw new CategoryNotFoundException(
                     String.format("There isn`t category with name %s", catalogueSkuRequest.skuCategoryName()),
                     catalogueSkuRequest.skuCategoryName(),
@@ -96,7 +93,7 @@ public class CatalogueSkuService {
             );
 
         CatalogueSku catalogueSku = new CatalogueSku(
-                catalogueSkuRequest.skuName(), skuCategory.get(),
+                catalogueSkuRequest.skuName(), skuCategory,
                 catalogueSkuRequest.volume(), catalogueSkuRequest.weight(),
                 catalogueSkuRequest.height(), catalogueSkuRequest.width(),
                 catalogueSkuRequest.length());

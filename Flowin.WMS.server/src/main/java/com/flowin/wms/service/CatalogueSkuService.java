@@ -6,9 +6,12 @@ import com.flowin.wms.entity.CatalogueSku;
 import com.flowin.wms.entity.SkuCategory;
 import com.flowin.wms.exception.CategoryNotFoundException;
 import com.flowin.wms.exception.InvalidArgumentException;
+import com.flowin.wms.exception.SavingFailException;
+import com.flowin.wms.exception.SkuNotFoundException;
 import com.flowin.wms.mapper.CatalogueSkuMapper;
 import com.flowin.wms.repository.CatalogueSkuRepository;
 import jakarta.validation.Valid;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,40 +34,52 @@ public class CatalogueSkuService {
         this.skuCategoryService = _skuCategoryService;
     }
 
-    public Optional<CatalogueSku> getSkuById(Integer catalogueId)
+    @Transactional(readOnly = true)
+    public CatalogueSku getSkuById(Integer catalogueId)
     {
-        if (catalogueId == null || catalogueId < 0)
+        if (catalogueId == null || catalogueId < 1)
             throw new InvalidArgumentException(
                     "Value was null or less than zero.",
                     "catalogueId",
                     "placed -> CatalogueSkuService::getSkuById(catalogueId).");
 
-        return repository.findById(catalogueId);
+        var response = repository.findById(catalogueId);
+        if (response.isEmpty())
+            throw new SkuNotFoundException(
+                    String.format("There isn`t sku with id %s", catalogueId),
+                    catalogueId.toString(),
+                    "CatalogueSkuService::getSkuById(catalogueId)"
+            );
+        return response.get();
     }
 
+    @Transactional(readOnly = true)
     public List<CatalogueSku> getAllSkus()
     {
         return repository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Optional<CatalogueSkuResponse> getSkuByIdDto(Integer catalogueId)
     {
-        if (catalogueId == null || catalogueId < 0)
+        if (catalogueId == null || catalogueId < 1)
             throw new InvalidArgumentException(
                     "Value was null or less than zero.",
                     "catalogueId",
-                    "placed -> CatalogueSkuService::getSkuByIdDto(catalogueId).");
+                    "placed in CatalogueSkuService::getSkuByIdDto(catalogueId).");
 
-        return getSkuById(catalogueId).map(catalogueSkuMapper::toCatalogueSkuResponse);
+        return Optional.ofNullable(catalogueSkuMapper.toCatalogueSkuResponse(getSkuById(catalogueId)));
+
     }
 
+    @Transactional(readOnly = true)
     public List<CatalogueSkuResponse> getAllSkusDto()
     {
         return getAllSkus().stream()
                 .map(catalogueSkuMapper::toCatalogueSkuResponse).toList();
     }
 
-    public Optional<CatalogueSkuResponse> postSkuToSkus(@Valid @RequestBody CatalogueSkuRequest catalogueSkuRequest) throws InvalidArgumentException {
+    public CatalogueSkuResponse postSkuToSkus(@Valid @RequestBody CatalogueSkuRequest catalogueSkuRequest) throws InvalidArgumentException {
         if (catalogueSkuRequest == null)
             throw new InvalidArgumentException(
                     "InvalidArgumentException. Value was null.",
@@ -84,9 +99,16 @@ public class CatalogueSkuService {
                 catalogueSkuRequest.skuName(), skuCategory.get(),
                 catalogueSkuRequest.volume(), catalogueSkuRequest.weight(),
                 catalogueSkuRequest.height(), catalogueSkuRequest.width(),
-                catalogueSkuRequest.length()
-        );
+                catalogueSkuRequest.length());
 
-        return Optional.of(repository.save(catalogueSku)).map(catalogueSkuMapper::toCatalogueSkuResponse);
+        try {
+            return catalogueSkuMapper.toCatalogueSkuResponse(repository.save(catalogueSku));
+        }
+        catch (IllegalArgumentException | OptimisticLockingFailureException ex) {
+            throw new SavingFailException(
+                ex.getMessage(),
+                "catalogueSku",
+                "CatalogueSkuService::postSkuToSkus");
+        }
     }
 }

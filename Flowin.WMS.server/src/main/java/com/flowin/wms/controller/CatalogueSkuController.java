@@ -7,10 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
-
-import static org.springframework.http.ResponseEntity.created;
 
 @RestController
 public class CatalogueSkuController {
@@ -38,7 +35,6 @@ public class CatalogueSkuController {
     @PostMapping("/api/skus")
     public ResponseEntity<CatalogueSkuResponse> postSkuToSkus(@Valid @RequestBody CatalogueSkuRequest catalogueSkuRequest)
     {
-        return catalogueSkuService.postSkuToSkus(catalogueSkuRequest)
-                .map(x -> created(URI.create("/api/skus/" + x.skuCode())).body(x)).orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ofNullable(catalogueSkuService.postSkuToSkus(catalogueSkuRequest));
     }
 }

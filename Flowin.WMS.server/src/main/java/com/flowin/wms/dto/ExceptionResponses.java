@@ -27,7 +27,14 @@ public class ExceptionResponses {
     public record NotFoundResponse(
             int code,
             String message,
-            String argument
+            String notFoundArgument
+    ) {
+    }
+
+    public record SavingFailResponse(
+            int code,
+            String message,
+            String failedArgument
     ) {
     }
 }

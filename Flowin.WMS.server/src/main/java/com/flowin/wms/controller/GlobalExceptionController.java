@@ -1,40 +1,51 @@
 package com.flowin.wms.controller;
 
-import com.flowin.wms.dto.ArgumentResponse;
-import com.flowin.wms.dto.ValidatingResponse;
+import com.flowin.wms.dto.ExceptionResponses;
+import com.flowin.wms.exception.CategoryNotFoundException;
 import com.flowin.wms.exception.InvalidArgumentException;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.Arrays;
 
 @RestControllerAdvice
 public class GlobalExceptionController {
     @ExceptionHandler(InvalidArgumentException.class)
-    public ResponseEntity<ArgumentResponse> handleInvalidArgumentException(
+    public ResponseEntity<ExceptionResponses.ArgumentResponse> handleInvalidArgumentException(
             InvalidArgumentException exception
     )
     {
         return ResponseEntity.badRequest().body(
-                new ArgumentResponse(400,
+                new ExceptionResponses.ArgumentResponse(400,
                         exception.getExceptionMessage(),
                         exception.getInvalidArgument(),
                         exception.getExceptionLocation()));
     }
 
+    // for bean-validating exceptions
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ValidatingResponse> handleMethodArgumentNotValidException(
+    public ResponseEntity<ExceptionResponses.ValidatingResponse> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException exception
     )
     {
         return ResponseEntity.badRequest().body(
-                new ValidatingResponse(400,
+                new ExceptionResponses.ValidatingResponse(400,
                         exception.getMessage(),
                         exception.getObjectName(),
                         exception.getFieldError() == null ? "" : exception.getFieldError().getField())
+        );
+    }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<ExceptionResponses.CategoryResponse> handleCategoryNotFoundException(
+            CategoryNotFoundException exception
+    )
+    {
+        return ResponseEntity.badRequest().body(
+                new ExceptionResponses.CategoryResponse(404,
+                        exception.getMessage(),
+                        exception.getNeededCategory())
         );
     }
 }

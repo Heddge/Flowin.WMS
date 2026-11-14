@@ -4,6 +4,7 @@ import com.flowin.wms.dto.CatalogueSkuRequest;
 import com.flowin.wms.dto.CatalogueSkuResponse;
 import com.flowin.wms.entity.CatalogueSku;
 import com.flowin.wms.entity.SkuCategory;
+import com.flowin.wms.exception.CategoryNotFoundException;
 import com.flowin.wms.exception.InvalidArgumentException;
 import com.flowin.wms.mapper.CatalogueSkuMapper;
 import com.flowin.wms.repository.CatalogueSkuRepository;
@@ -73,7 +74,11 @@ public class CatalogueSkuService {
         Optional<SkuCategory> skuCategory = skuCategoryService.getCategoryByName(catalogueSkuRequest.skuCategoryName());
 
         if (skuCategory.isEmpty())
-            return Optional.empty();
+            throw new CategoryNotFoundException(
+                    String.format("There isn`t category with name %s", catalogueSkuRequest.skuCategoryName()),
+                    catalogueSkuRequest.skuCategoryName(),
+                    "CatalogueSkuService::postToSkus"
+            );
 
         CatalogueSku catalogueSku = new CatalogueSku(
                 catalogueSkuRequest.skuName(), skuCategory.get(),

@@ -15,7 +15,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "skuName": "Xiaomi Mi 11 Lite 4G",
+    "skuName": "Xiaomi 15",
     "skuCategoryName": "Electronics",
     "volume": 700,
     "weight": 250,

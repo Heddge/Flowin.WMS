@@ -15,7 +15,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-    "skuName": "Xiaomi 15",
+    "skuName": "Xiaomi 17",
     "skuCategoryName": "Electronics",
     "volume": 700,
     "weight": 250,

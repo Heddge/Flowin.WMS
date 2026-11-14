@@ -3,6 +3,7 @@ package com.flowin.wms.controller;
 import com.flowin.wms.dto.ExceptionResponses;
 import com.flowin.wms.exception.CategoryNotFoundException;
 import com.flowin.wms.exception.InvalidArgumentException;
+import com.flowin.wms.exception.SavingFailException;
 import com.flowin.wms.exception.SkuNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -59,6 +60,19 @@ public class GlobalExceptionController {
                 new ExceptionResponses.NotFoundResponse(404,
                         exception.getMessage(),
                         exception.getExceptionSku())
+        );
+    }
+
+    @ExceptionHandler(SavingFailException.class)
+    public ResponseEntity<ExceptionResponses.SavingFailResponse> handleSavingFailException(
+            SavingFailException exception
+    )
+    {
+        return ResponseEntity.internalServerError().body(
+                new ExceptionResponses.SavingFailResponse(409,
+                        exception.getMessage(),
+                        exception.getSavingFailedForEntity()
+                )
         );
     }
 }

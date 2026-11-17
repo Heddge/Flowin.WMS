@@ -37,4 +37,11 @@ public class ExceptionResponses {
             String failedArgument
     ) {
     }
+
+    public record DeletingFailResponse(
+            int code,
+            String message,
+            String failedArgument
+    ) {
+    }
 }

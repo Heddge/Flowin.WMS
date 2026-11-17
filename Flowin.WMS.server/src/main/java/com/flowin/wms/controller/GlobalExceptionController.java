@@ -84,4 +84,18 @@ public class GlobalExceptionController {
                 )
         );
     }
+
+    @ExceptionHandler(DeletingFailException.class)
+    public ResponseEntity<ExceptionResponses.DeletingFailResponse> handleDeletingFailException(
+            DeletingFailException exception
+    )
+    {
+        return ResponseEntity.badRequest().body(
+                new ExceptionResponses.DeletingFailResponse(
+                        400,
+                        exception.getMessage(),
+                        exception.getDeletingFailedForEntity()
+                )
+        );
+    }
 }

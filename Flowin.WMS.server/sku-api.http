@@ -32,7 +32,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "skuCategoryName": "Accessories"
+  "skuCategoryName": "Accessoriessssss"
 }
 ###
 
@@ -45,4 +45,12 @@ Accept: application/json
 {
   "skuCategoryName": "Accessories"
 }
+###
+
+
+
+###
+DELETE http://localhost:8081/api/skucategories/name/Accessoriessssss
+Content-Type: application/json
+Accept: application/json
 ###

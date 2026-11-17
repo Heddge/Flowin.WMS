@@ -2,16 +2,13 @@ package com.flowin.wms.service;
 
 import com.flowin.wms.dto.SkuCategoryDto.*;
 import com.flowin.wms.entity.SkuCategory;
-import com.flowin.wms.exception.CategoryNotFoundException;
-import com.flowin.wms.exception.InvalidArgumentException;
-import com.flowin.wms.exception.SavingFailException;
+import com.flowin.wms.exception.*;
 import com.flowin.wms.mapper.SkuCategoryMapper;
 import com.flowin.wms.repository.SkuCategoryRepository;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -110,7 +107,7 @@ public class SkuCategoryService {
             throw new InvalidArgumentException(
                     "Value was null or empty.",
                     "oldName",
-                    "placed -> SkuCategoryService::putSkuCategoryByName(oldName, requestBody).");
+                    "SkuCategoryService::putSkuCategoryByName(oldName, requestBody).");
 
         if (skuCategoryRequest == null)
             throw new InvalidArgumentException(
@@ -144,7 +141,7 @@ public class SkuCategoryService {
             throw new InvalidArgumentException(
                     "Value was less than 1.",
                     "id",
-                    "placed -> SkuCategoryService::putSkuCategoryById(id, requestBody).");
+                    "placed: SkuCategoryService::putSkuCategoryById(id, requestBody).");
 
         if (skuCategoryRequest == null)
             throw new InvalidArgumentException(
@@ -166,6 +163,51 @@ public class SkuCategoryService {
                     ex.getMessage(),
                     "skuCategoryRequest",
                     "SkuCategoryService::putSkuCategoryById");
+        }
+    }
+
+    public SkuCategoryResponse deleteSkuCategoryById(Integer id)
+    {
+        if (id < 1)
+            throw new InvalidArgumentException(
+                    "Value was less than 1.",
+                    "id",
+                    "placed: SkuCategoryService::deleteSkuCategoryById(id).");
+
+        SkuCategoryResponse response = getCategoryById(id);
+        try {
+            repository.deleteById(id);
+            return response;
+        }
+        catch (Exception ex)
+        {
+            throw new DeletingFailException(
+                    ex.getMessage(),
+                    String.format("with id %d", id),
+                    "SkuCategoryService::deleteSkuCategoryById");
+        }
+    }
+
+    public SkuCategoryResponse deleteSkuCategoryByName(String name)
+    {
+        if (name == null || name.isBlank())
+            throw new InvalidArgumentException(
+                    "Value was null or empty.",
+                    "name",
+                    "SkuCategoryService::deleteSkuCategoryByName(oldName).");
+
+        SkuCategoryResponse response = getCategoryByName(name);
+
+        try {
+            repository.deleteById(response.skuCategoryId());
+            return response;
+        }
+        catch (Exception ex)
+        {
+            throw new DeletingFailException(
+                    ex.getMessage(),
+                    String.format("with name %s", name),
+                    "SkuCategoryService::deleteSkuCategoryById");
         }
     }
 }

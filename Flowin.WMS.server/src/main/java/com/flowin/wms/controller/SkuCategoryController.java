@@ -53,4 +53,16 @@ public class SkuCategoryController {
     {
         return ResponseEntity.ok().body(service.putSkuCategoryById(id, skuCategoryRequest));
     }
+
+    @DeleteMapping("/api/skucategories/id/{id}")
+    public ResponseEntity<SkuCategoryResponse> deleteSkuCategoryById(@PathVariable("id") Integer id)
+    {
+        return ResponseEntity.ok().body(service.deleteSkuCategoryById(id));
+    }
+
+    @DeleteMapping("/api/skucategories/name/{name}")
+    public ResponseEntity<SkuCategoryResponse> deleteSkuCategoryById(@PathVariable("name") String name)
+    {
+        return ResponseEntity.ok().body(service.deleteSkuCategoryByName(name));
+    }
 }

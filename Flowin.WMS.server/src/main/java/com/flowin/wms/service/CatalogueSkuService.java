@@ -1,7 +1,7 @@
 package com.flowin.wms.service;
 
-import com.flowin.wms.dto.CatalogueSkuRequest;
-import com.flowin.wms.dto.CatalogueSkuResponse;
+import com.flowin.wms.dto.CatalogueSkuDto.CatalogueSkuRequest;
+import com.flowin.wms.dto.CatalogueSkuDto.CatalogueSkuResponse;
 import com.flowin.wms.entity.CatalogueSku;
 import com.flowin.wms.entity.SkuCategory;
 import com.flowin.wms.exception.CategoryNotFoundException;

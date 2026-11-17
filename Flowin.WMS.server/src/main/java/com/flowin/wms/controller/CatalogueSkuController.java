@@ -1,7 +1,6 @@
 package com.flowin.wms.controller;
 
-import com.flowin.wms.dto.CatalogueSkuRequest;
-import com.flowin.wms.dto.CatalogueSkuResponse;
+import com.flowin.wms.dto.CatalogueSkuDto.*;
 import com.flowin.wms.exception.SkuNotFoundException;
 import com.flowin.wms.service.CatalogueSkuService;
 import jakarta.validation.Valid;

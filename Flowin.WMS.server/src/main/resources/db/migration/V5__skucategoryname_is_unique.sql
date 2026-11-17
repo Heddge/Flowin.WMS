@@ -1,0 +1,2 @@
+ALTER TABLE sku_categories
+ADD CONSTRAINT sku_categories_sku_category_name UNIQUE(sku_category_name)

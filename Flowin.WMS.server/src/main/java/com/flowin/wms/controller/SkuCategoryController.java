@@ -5,10 +5,7 @@ import com.flowin.wms.service.SkuCategoryService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,5 +40,17 @@ public class SkuCategoryController {
     public ResponseEntity<SkuCategoryResponse> postSkuCategory(@Valid @RequestBody SkuCategoryRequest skuCategoryRequest)
     {
         return ResponseEntity.ofNullable(service.postSkuCategory(skuCategoryRequest));
+    }
+
+    @PutMapping("/api/skucategories/name/{oldName}")
+    public ResponseEntity<SkuCategoryResponse> putSkuCategoryByName(@PathVariable("oldName") String oldName, @Valid @RequestBody SkuCategoryRequest skuCategoryRequest)
+    {
+        return ResponseEntity.ok().body(service.putSkuCategoryByName(oldName, skuCategoryRequest));
+    }
+
+    @PutMapping("/api/skucategories/id/{id}")
+    public ResponseEntity<SkuCategoryResponse> putSkuCategoryByName(@PathVariable("id") Integer id, @Valid @RequestBody SkuCategoryRequest skuCategoryRequest)
+    {
+        return ResponseEntity.ok().body(service.putSkuCategoryById(id, skuCategoryRequest));
     }
 }

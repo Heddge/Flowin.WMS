@@ -102,4 +102,70 @@ public class SkuCategoryService {
                     "SkuCategoryService::postSkuCategory");
         }
     }
+
+    @Transactional
+    public SkuCategoryResponse putSkuCategoryByName(String oldName, @Valid @RequestBody SkuCategoryRequest skuCategoryRequest)
+    {
+        if (oldName == null || oldName.isBlank())
+            throw new InvalidArgumentException(
+                    "Value was null or empty.",
+                    "oldName",
+                    "placed -> SkuCategoryService::putSkuCategoryByName(oldName, requestBody).");
+
+        if (skuCategoryRequest == null)
+            throw new InvalidArgumentException(
+                    "Argument was null.",
+                    "skuCategoryRequest",
+                    "SkuCategoryService::putSkuCategoryByName"
+            );
+
+        SkuCategoryResponse previousCategory = getCategoryByName(oldName);
+
+        SkuCategory request = new SkuCategory(previousCategory.skuCategoryId(), skuCategoryRequest.skuCategoryName());
+
+
+        try {
+            return mapper.toSkuCategoryResponse(repository.save(request));
+        }
+        catch (Exception ex)
+        {
+            throw new SavingFailException(
+                    ex.getMessage(),
+                    "skuCategoryRequest",
+                    "SkuCategoryService::putSkuCategoryByName");
+        }
+    }
+
+
+    @Transactional
+    public SkuCategoryResponse putSkuCategoryById(Integer id, @Valid @RequestBody SkuCategoryRequest skuCategoryRequest)
+    {
+        if (id < 1)
+            throw new InvalidArgumentException(
+                    "Value was less than 1.",
+                    "id",
+                    "placed -> SkuCategoryService::putSkuCategoryById(id, requestBody).");
+
+        if (skuCategoryRequest == null)
+            throw new InvalidArgumentException(
+                    "Argument was null.",
+                    "skuCategoryRequest",
+                    "SkuCategoryService::putSkuCategoryById"
+            );
+
+        SkuCategoryResponse previousCategory = getCategoryById(id);
+
+        SkuCategory request = new SkuCategory(previousCategory.skuCategoryId(), skuCategoryRequest.skuCategoryName());
+
+        try {
+            return mapper.toSkuCategoryResponse(repository.save(request));
+        }
+        catch (Exception ex)
+        {
+            throw new SavingFailException(
+                    ex.getMessage(),
+                    "skuCategoryRequest",
+                    "SkuCategoryService::putSkuCategoryById");
+        }
+    }
 }

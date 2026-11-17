@@ -19,6 +19,13 @@ public class SkuCategory {
         skuCategoryName = sku_category_name;
     }
 
+
+    public SkuCategory(Integer id, String sku_category_name)
+    {
+        skuCategoryId = id;
+        skuCategoryName = sku_category_name;
+    }
+
     // getters
     public Integer getCategoryId() { return skuCategoryId; }
     public String getCategoryName() { return skuCategoryName; }

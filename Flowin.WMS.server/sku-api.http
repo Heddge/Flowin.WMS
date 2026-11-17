@@ -35,3 +35,14 @@ Accept: application/json
   "skuCategoryName": "Accessories"
 }
 ###
+
+
+###
+PUT http://localhost:8081/api/skucategories/id/3
+Content-Type: application/json
+Accept: application/json
+
+{
+  "skuCategoryName": "Accessories"
+}
+###

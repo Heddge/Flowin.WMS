@@ -2,10 +2,13 @@ package com.flowin.wms.controller;
 
 import com.flowin.wms.dto.SkuCategoryDto.*;
 import com.flowin.wms.service.SkuCategoryService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -34,5 +37,11 @@ public class SkuCategoryController {
     public ResponseEntity<SkuCategoryResponse> getSkuCategoryByName(@PathVariable("name") String name)
     {
         return ResponseEntity.ok().body(service.getCategoryByName(name));
+    }
+
+    @PostMapping("/api/skucategories")
+    public ResponseEntity<SkuCategoryResponse> postSkuCategory(@Valid @RequestBody SkuCategoryRequest skuCategoryRequest)
+    {
+        return ResponseEntity.ofNullable(service.postSkuCategory(skuCategoryRequest));
     }
 }

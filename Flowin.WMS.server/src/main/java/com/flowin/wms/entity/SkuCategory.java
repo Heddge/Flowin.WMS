@@ -9,7 +9,6 @@ public class SkuCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer skuCategoryId;
-    @Min(value = 0)
     @Column(nullable = false, length = 255)
     private String skuCategoryName;
 

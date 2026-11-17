@@ -24,3 +24,14 @@ Accept: application/json
     "length": 120
 }
 ###
+
+
+###
+POST http://localhost:8081/api/skucategories
+Content-Type: application/json
+Accept: application/json
+
+{
+  "skuCategoryName": "Accessories"
+}
+###

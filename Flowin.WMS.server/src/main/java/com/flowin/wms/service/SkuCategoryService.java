@@ -1,8 +1,10 @@
 package com.flowin.wms.service;
 
+import com.flowin.wms.dto.SkuCategoryDto;
 import com.flowin.wms.entity.SkuCategory;
 import com.flowin.wms.exception.CategoryNotFoundException;
 import com.flowin.wms.exception.InvalidArgumentException;
+import com.flowin.wms.mapper.SkuCategoryMapper;
 import com.flowin.wms.repository.SkuCategoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,14 +16,16 @@ import java.util.Optional;
 @Transactional
 public class SkuCategoryService {
     private final SkuCategoryRepository repository;
+    private final SkuCategoryMapper mapper;
 
-    public SkuCategoryService(SkuCategoryRepository repo)
+    public SkuCategoryService(SkuCategoryRepository repo, SkuCategoryMapper _mapper)
     {
         this.repository = repo;
+        this.mapper = _mapper;
     }
 
     @Transactional(readOnly = true)
-    public SkuCategory getCategoryById(Integer categoryId)
+    public SkuCategoryDto.SkuCategoryResponse getCategoryById(Integer categoryId)
     {
         if (categoryId == null || categoryId < 1)
             throw new InvalidArgumentException(
@@ -38,11 +42,11 @@ public class SkuCategoryService {
                     "SkuCategoryService::getCategoryById"
             );
 
-        return result.get();
+        return mapper.toSkuCategoryResponse(result.get());
     }
 
     @Transactional(readOnly = true)
-    public SkuCategory getCategoryByName(String name)
+    public SkuCategoryDto.SkuCategoryResponse getCategoryByName(String name)
     {
         if (name == null || name.isBlank())
             throw new InvalidArgumentException(
@@ -60,12 +64,12 @@ public class SkuCategoryService {
                     "SkuCategoryService::getCategoryByName"
             );
 
-        return response;
+        return mapper.toSkuCategoryResponse(response);
     }
 
     @Transactional(readOnly = true)
-    public List<SkuCategory> getAllCategories()
+    public List<SkuCategoryDto.SkuCategoryResponse> getAllCategories()
     {
-        return repository.findAll();
+        return repository.findAll().stream().map(mapper::toSkuCategoryResponse).toList();
     }
 }

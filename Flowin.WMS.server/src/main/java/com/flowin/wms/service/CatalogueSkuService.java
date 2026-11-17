@@ -2,6 +2,7 @@ package com.flowin.wms.service;
 
 import com.flowin.wms.dto.CatalogueSkuDto.CatalogueSkuRequest;
 import com.flowin.wms.dto.CatalogueSkuDto.CatalogueSkuResponse;
+import com.flowin.wms.dto.SkuCategoryDto;
 import com.flowin.wms.entity.CatalogueSku;
 import com.flowin.wms.entity.SkuCategory;
 import com.flowin.wms.exception.CategoryNotFoundException;
@@ -83,7 +84,7 @@ public class CatalogueSkuService {
                     "catalogueSkuRequest",
                     "placed -> CatalogueSkuService::postSkuToSkus(CatalogueSkuRequest).");
 
-        SkuCategory skuCategory = skuCategoryService.getCategoryByName(catalogueSkuRequest.skuCategoryName());
+        SkuCategoryDto.SkuCategoryResponse skuCategory = skuCategoryService.getCategoryByName(catalogueSkuRequest.skuCategoryName());
 
         if (skuCategory == null)
             throw new CategoryNotFoundException(
@@ -93,7 +94,7 @@ public class CatalogueSkuService {
             );
 
         CatalogueSku catalogueSku = new CatalogueSku(
-                catalogueSkuRequest.skuName(), skuCategory,
+                catalogueSkuRequest.skuName(), new SkuCategory(skuCategory.skuCategoryName()),
                 catalogueSkuRequest.volume(), catalogueSkuRequest.weight(),
                 catalogueSkuRequest.height(), catalogueSkuRequest.width(),
                 catalogueSkuRequest.length());

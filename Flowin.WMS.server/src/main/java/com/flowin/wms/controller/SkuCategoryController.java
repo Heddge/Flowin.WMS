@@ -4,12 +4,12 @@ import com.flowin.wms.dto.SkuCategoryDto.*;
 import com.flowin.wms.service.SkuCategoryService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
-@Controller
+@RestController
 public class SkuCategoryController {
     private final SkuCategoryService service;
 
@@ -39,6 +39,8 @@ public class SkuCategoryController {
     @PostMapping("/api/skucategories")
     public ResponseEntity<SkuCategoryResponse> postSkuCategory(@Valid @RequestBody SkuCategoryRequest skuCategoryRequest)
     {
+        // TODO ResponseEntity.created(URI);
+//        return ResponseEntity.created(URI.create())
         return ResponseEntity.ofNullable(service.postSkuCategory(skuCategoryRequest));
     }
 
@@ -49,7 +51,7 @@ public class SkuCategoryController {
     }
 
     @PutMapping("/api/skucategories/id/{id}")
-    public ResponseEntity<SkuCategoryResponse> putSkuCategoryByName(@PathVariable("id") Integer id, @Valid @RequestBody SkuCategoryRequest skuCategoryRequest)
+    public ResponseEntity<SkuCategoryResponse> putSkuCategoryById(@PathVariable("id") Integer id, @Valid @RequestBody SkuCategoryRequest skuCategoryRequest)
     {
         return ResponseEntity.ok().body(service.putSkuCategoryById(id, skuCategoryRequest));
     }
@@ -61,7 +63,7 @@ public class SkuCategoryController {
     }
 
     @DeleteMapping("/api/skucategories/name/{name}")
-    public ResponseEntity<SkuCategoryResponse> deleteSkuCategoryById(@PathVariable("name") String name)
+    public ResponseEntity<SkuCategoryResponse> deleteSkuCategoryByName(@PathVariable("name") String name)
     {
         return ResponseEntity.ok().body(service.deleteSkuCategoryByName(name));
     }

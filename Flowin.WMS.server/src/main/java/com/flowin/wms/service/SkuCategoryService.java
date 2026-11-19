@@ -75,7 +75,7 @@ public class SkuCategoryService {
     }
 
     @Transactional
-    public SkuCategoryResponse postSkuCategory(@Valid @RequestBody SkuCategoryRequest skuCategoryRequest)
+    public SkuCategoryResponse postSkuCategory(SkuCategoryRequest skuCategoryRequest)
     {
         if (skuCategoryRequest == null)
             throw new InvalidArgumentException(
@@ -101,7 +101,7 @@ public class SkuCategoryService {
     }
 
     @Transactional
-    public SkuCategoryResponse putSkuCategoryByName(String oldName, @Valid @RequestBody SkuCategoryRequest skuCategoryRequest)
+    public SkuCategoryResponse putSkuCategoryByName(String oldName, SkuCategoryRequest skuCategoryRequest)
     {
         if (oldName == null || oldName.isBlank())
             throw new InvalidArgumentException(
@@ -137,7 +137,7 @@ public class SkuCategoryService {
     @Transactional
     public SkuCategoryResponse putSkuCategoryById(Integer id, @Valid @RequestBody SkuCategoryRequest skuCategoryRequest)
     {
-        if (id < 1)
+        if (id == null || id < 1)
             throw new InvalidArgumentException(
                     "Value was less than 1.",
                     "id",
@@ -168,7 +168,7 @@ public class SkuCategoryService {
 
     public SkuCategoryResponse deleteSkuCategoryById(Integer id)
     {
-        if (id < 1)
+        if (id == null || id < 1)
             throw new InvalidArgumentException(
                     "Value was less than 1.",
                     "id",
@@ -202,8 +202,7 @@ public class SkuCategoryService {
             repository.deleteById(response.skuCategoryId());
             return response;
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             throw new DeletingFailException(
                     ex.getMessage(),
                     String.format("with name %s", name),

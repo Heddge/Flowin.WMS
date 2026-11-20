@@ -42,6 +42,13 @@ public class CatalogueSkuController {
     @PostMapping("/api/skus")
     public ResponseEntity<CatalogueSkuResponse> postSkuToSkus(@Valid @RequestBody CatalogueSkuRequest catalogueSkuRequest)
     {
-        return ResponseEntity.ofNullable(catalogueSkuService.postSkuToSkus(catalogueSkuRequest));
+        return ResponseEntity.status(200).body(catalogueSkuService.postSkuToSkus(catalogueSkuRequest));
+//        return ResponseEntity.ofNullable(catalogueSkuService.postSkuToSkus(catalogueSkuRequest));
+    }
+
+    @PutMapping("/api/skus/{id}")
+    public ResponseEntity<CatalogueSkuResponse> updateSku(@Valid @PathVariable("id") Integer id, @Valid @RequestBody CatalogueSkuRequest request)
+    {
+        return ResponseEntity.status(200).body(catalogueSkuService.updateSku(id, request));
     }
 }

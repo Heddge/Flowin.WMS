@@ -1,14 +1,17 @@
 package com.flowin.wms.dto;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 public class CatalogueSkuDto{
 public record CatalogueSkuRequest(
         @NotNull(message = "VALIDATION ERROR. skuName value can`t be null.")
+        @NotBlank(message = "VALIDATION ERROR. skuName value can`t be blank.")
         String skuName,
         @NotNull(message = "VALIDATION ERROR. skuCategoryName value can`t be null.")
+        @NotBlank(message = "VALIDATION ERROR. skuCategoryName value can`t be blank.")
         String skuCategoryName,
         @Min(value = 0, message = "VALIDATION ERROR. volume value can`t be less than 0.")
         int volume,

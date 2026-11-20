@@ -68,6 +68,27 @@ public class SkuCategoryService {
         return mapper.toSkuCategoryResponse(response);
     }
 
+    @Transactional
+    public SkuCategory getCategoryEntityByName(String name)
+    {
+        if (name == null || name.isBlank())
+            throw new InvalidArgumentException(
+                    "Value was null or empty.",
+                    "name",
+                    "placed -> SkuCategoryService::getCategoryEntityByName(name).");
+
+        var response = repository.findBySkuCategoryName(name);
+
+        if (response == null)
+            throw new CategoryNotFoundException(
+                    String.format("There isn`t category with name %s", name),
+                    name,
+                    "SkuCategoryService::getCategoryEntityByName"
+            );
+
+        return response;
+    }
+
     @Transactional(readOnly = true)
     public List<SkuCategoryResponse> getAllCategories()
     {

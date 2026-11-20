@@ -14,6 +14,7 @@ import com.flowin.wms.repository.CatalogueSkuRepository;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tools.jackson.databind.cfg.MapperBuilder;
 
 import java.util.List;
 
@@ -23,13 +24,15 @@ public class CatalogueSkuService {
     private final CatalogueSkuRepository repository;
     private final CatalogueSkuMapper catalogueSkuMapper;
     private final SkuCategoryService skuCategoryService;
+    private final MapperBuilder mapperBuilder;
 
     public CatalogueSkuService(CatalogueSkuRepository repo, CatalogueSkuMapper catSkuMapper,
-                               SkuCategoryService _skuCategoryService)
+                               SkuCategoryService _skuCategoryService, MapperBuilder mapperBuilder)
     {
         this.repository = repo;
         this.catalogueSkuMapper = catSkuMapper;
         this.skuCategoryService = _skuCategoryService;
+        this.mapperBuilder = mapperBuilder;
     }
 
     @Transactional(readOnly = true)
@@ -77,6 +80,7 @@ public class CatalogueSkuService {
                 .map(catalogueSkuMapper::toCatalogueSkuResponse).toList();
     }
 
+    @Transactional
     public CatalogueSkuResponse postSkuToSkus(CatalogueSkuRequest catalogueSkuRequest) {
         if (catalogueSkuRequest == null)
             throw new InvalidArgumentException(
@@ -108,5 +112,37 @@ public class CatalogueSkuService {
                 "catalogueSku",
                 "CatalogueSkuService::postSkuToSkus");
         }
+    }
+
+    @Transactional
+    public CatalogueSkuResponse updateSku(Integer id, CatalogueSkuRequest request)
+    {
+        if (id == null || id < 1 || request == null)
+            throw new InvalidArgumentException(
+                    "Value was null or less than zero.",
+                    "Id or RequestBody",
+                    "placed in CatalogueSkuService::updateSku(Id, request).");
+
+        var response_sku = repository.findById(id);
+
+        if (response_sku.isEmpty())
+            throw new SkuNotFoundException(
+                    String.format("There isn`t sku with id %d", id),
+                    String.format("sku with id: %d", id),
+                    "CatalogueSkuService::updateSku"
+            );
+
+        var response_category = skuCategoryService.getCategoryEntityByName(request.skuCategoryName());
+        var response_sku_to_update = response_sku.get();
+
+        response_sku_to_update.setSkuCategory(response_category);
+        response_sku_to_update.setHeight(request.height());
+        response_sku_to_update.setLength(request.length());
+        response_sku_to_update.setSkuName(request.skuName());
+        response_sku_to_update.setVolume(request.volume());
+        response_sku_to_update.setWeight(request.weight());
+        response_sku_to_update.setWidth(request.width());
+
+        return catalogueSkuMapper.toCatalogueSkuResponse(response_sku_to_update);
     }
 }

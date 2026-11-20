@@ -22,7 +22,9 @@ public record CatalogueSkuRequest(
         @Min(value = 0, message = "VALIDATION ERROR. width value can`t be less than 0.")
         int width,
         @Min(value = 0, message = "VALIDATION ERROR. length value can`t be less than 0.")
-        int length
+        int length,
+        @NotNull(message = "VALIDATION ERROR. isActive value can`t be null.")
+        boolean isActive
 ) {
 }
 
@@ -39,15 +41,17 @@ public record CatalogueSkuResponse(
         String skuCategoryName,
         @Min(value = 0, message = "VALIDATION ERROR. volume value can`t be less than 0.")
         int volume,
-        //@Min(value = 0, message = "VALIDATION ERROR. weight value can not be less than 0.")
-        //we do not need bean-annotations for basic types (int in java is not nullable)
+        @Min(value = 0, message = "VALIDATION ERROR. weight value can not be less than 0.")
+        //we do not need bean-annotations for null-checking basic types (int in java is not nullable)
         int weight,
         @Min(value = 0, message = "VALIDATION ERROR. height value can`t be less than 0.")
         int height,
         @Min(value = 0, message = "VALIDATION ERROR. width value can`t be less than 0.")
         int width,
         @Min(value = 0, message = "VALIDATION ERROR. length value can`t be less than 0.")
-        int length
+        int length,
+        @NotNull(message = "VALIDATION ERROR. isActive value can`t be null.")
+        boolean isActive
 )
 { }
 }

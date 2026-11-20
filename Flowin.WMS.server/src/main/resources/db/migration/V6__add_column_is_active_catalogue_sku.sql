@@ -1,0 +1,2 @@
+ALTER TABLE catalogue_skus
+ADD is_active BOOLEAN NOT NULL DEFAULT TRUE

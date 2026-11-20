@@ -16,7 +16,8 @@ public class CatalogueSkuMapper {
                 catalogueSku.getWeight(),
                 catalogueSku.getHeight(),
                 catalogueSku.getWidth(),
-                catalogueSku.getLength()
+                catalogueSku.getLength(),
+                catalogueSku.getIsActive()
         );
     }
 }

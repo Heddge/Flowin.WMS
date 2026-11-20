@@ -51,4 +51,10 @@ public class CatalogueSkuController {
     {
         return ResponseEntity.status(200).body(catalogueSkuService.updateSku(id, request));
     }
+
+    @DeleteMapping("/api/skus/{id}")
+    public ResponseEntity<CatalogueSkuResponse> deactivateSku(@Valid @PathVariable("id") Integer Id)
+    {
+        return ResponseEntity.ok(catalogueSkuService.deactivateSku(Id));
+    }
 }

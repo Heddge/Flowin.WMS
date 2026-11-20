@@ -101,7 +101,7 @@ public class CatalogueSkuService {
                 catalogueSkuRequest.skuName(), new SkuCategory(skuCategory.skuCategoryName()),
                 catalogueSkuRequest.volume(), catalogueSkuRequest.weight(),
                 catalogueSkuRequest.height(), catalogueSkuRequest.width(),
-                catalogueSkuRequest.length());
+                catalogueSkuRequest.length(), catalogueSkuRequest.isActive());
 
         try {
             return catalogueSkuMapper.toCatalogueSkuResponse(repository.save(catalogueSku));
@@ -144,5 +144,27 @@ public class CatalogueSkuService {
         response_sku_to_update.setWidth(request.width());
 
         return catalogueSkuMapper.toCatalogueSkuResponse(response_sku_to_update);
+    }
+
+    @Transactional
+    public CatalogueSkuResponse deactivateSku(Integer id)
+    {
+        if (id == null || id < 1)
+            throw new InvalidArgumentException(
+                    "Value was null or less than zero.",
+                    "Id",
+                    "placed in CatalogueSkuService::deactivateSku(Id).");
+
+        var response = repository.findById(id);
+
+        if (response.isEmpty())
+            throw new SkuNotFoundException(
+                    String.format("There isn`t sku with id %d", id),
+                    String.format("sku with id: %d", id),
+                    "CatalogueSkuService::deactivateSku"
+            );
+
+        response.get().deactivate();
+        return catalogueSkuMapper.toCatalogueSkuResponse(response.get());
     }
 }

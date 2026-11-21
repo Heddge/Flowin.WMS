@@ -2,7 +2,9 @@ package com.flowin.wms.mapper;
 
 import com.flowin.wms.dto.AreaTypeDto;
 import com.flowin.wms.entity.AreaType;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AreaTypeMapper {
     public AreaTypeDto.AreaTypeResponse toAreaTypeResponse(AreaType areaType)
     {

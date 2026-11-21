@@ -51,6 +51,11 @@ public class StoragePlaceService {
     }
 
 
+    public boolean getIsActive(Integer id)
+    {
+        return repository.getIsActiveById(id);
+    }
+
     public StoragePlace getStoragePlaceByIdEntity(Integer id)
     {
         if (id == null || id < 1)

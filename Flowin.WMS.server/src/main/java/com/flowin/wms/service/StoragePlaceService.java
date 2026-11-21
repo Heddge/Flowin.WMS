@@ -50,6 +50,28 @@ public class StoragePlaceService {
         return mapper.toStoragePlaceResponse(response.get());
     }
 
+
+    public StoragePlace getStoragePlaceByIdEntity(Integer id)
+    {
+        if (id == null || id < 1)
+            throw new InvalidArgumentException(
+                    "ERROR: Id was null or less than 1.",
+                    "ARGUMENT: id.",
+                    "PLACED: StoragePlaceService::getStoragePlaceById."
+            );
+
+        var response = repository.findById(id);
+
+        if (response.isEmpty())
+            throw new EntityNotFoundException(
+                    String.format("ERROR: There isn't storage place with id %d", id),
+                    String.format("ENTITY: Storage place with id %d", id),
+                    "PLACED: StoragePlaceService::getStoragePlaceById."
+            );
+
+        return response.get();
+    }
+
     public StoragePlaceResponse postStoragePlace(StoragePlaceRequest request)
     {
         if (request == null)
@@ -58,19 +80,25 @@ public class StoragePlaceService {
                     "ARGUMENT: Request.",
                     "PLACED: StoragePlaceService::postStoragePlace."
             );
-        var requesting = new StoragePlace(request.storagePlaceInfo());
+        var requesting = new StoragePlace(request.storagePlaceInfo(), true);
         return mapper.toStoragePlaceResponse(repository.save(requesting));
     }
 
-//    public StoragePlaceResponse deactivateStoragePlace(Integer id)
-//    {
-//        if (id == null || id < 1)
-//            throw new InvalidArgumentException(
-//                    "ERROR: Id was null or less than 1.",
-//                    "ARGUMENT: id.",
-//                    "PLACED: StoragePlaceService::deactivateStoragePlace."
-//            );
-//
-//
-//    }
+    public StoragePlaceResponse deactivateStoragePlace(Integer id)
+    {
+        if (id == null || id < 1)
+            throw new InvalidArgumentException(
+                    "ERROR: Id was null or less than 1.",
+                    "ARGUMENT: id.",
+                    "PLACED: StoragePlaceService::deactivateStoragePlace."
+            );
+
+        // TODO add checking linked Areas and Bins and SKUs in them.
+        //  Also checking unfinished task with these storage places.
+
+        StoragePlace required_place = getStoragePlaceByIdEntity(id);
+        required_place.deactivate();
+
+        return mapper.toStoragePlaceResponse(repository.save(required_place));
+    }
 }

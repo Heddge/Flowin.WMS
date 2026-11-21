@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 public class StoragePlaceMapper {
     public StoragePlaceDto.StoragePlaceResponse toStoragePlaceResponse(StoragePlace response)
     {
-        return new StoragePlaceDto.StoragePlaceResponse(response.getId(), response.getInfo());
+        return new StoragePlaceDto.StoragePlaceResponse(response.getId(), response.getInfo(), response.getIsActive());
     }
 }

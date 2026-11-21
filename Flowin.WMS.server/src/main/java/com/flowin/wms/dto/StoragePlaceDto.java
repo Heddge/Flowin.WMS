@@ -7,7 +7,8 @@ import jakarta.validation.constraints.NotNull;
 public class StoragePlaceDto {
     public record StoragePlaceResponse(
             Integer storagePlaceId,
-            String storagePlaceInfo
+            String storagePlaceInfo,
+            Boolean isActive
     ){}
 
     public record StoragePlaceRequest(

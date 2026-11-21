@@ -36,9 +36,9 @@ public class StoragePlaceController {
         return ResponseEntity.ok().body(service.postStoragePlace(request));
     }
 
-//    @DeleteMapping("/api/storageplaces/{id}")
-//    public ResponseEntity<StoragePlaceResponse> deactivateStoragePlace(@Valid @PathVariable("id") Integer id)
-//    {
-//        return ResponseEntity.ok().body(service.deactivateStoragePlace(id));
-//    }
+    @DeleteMapping("/api/storageplaces/{id}")
+    public ResponseEntity<StoragePlaceResponse> deactivateStoragePlace(@Valid @PathVariable("id") Integer id)
+    {
+        return ResponseEntity.ok().body(service.deactivateStoragePlace(id));
+    }
 }

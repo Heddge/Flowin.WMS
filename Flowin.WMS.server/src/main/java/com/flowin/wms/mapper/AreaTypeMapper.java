@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 public class AreaTypeMapper {
     public AreaTypeDto.AreaTypeResponse toAreaTypeResponse(AreaType areaType)
     {
-        return new AreaTypeDto.AreaTypeResponse(areaType.getId(), areaType.getTypeName());
+        return new AreaTypeDto.AreaTypeResponse(areaType.getId(), areaType.getAreaTypeName());
     }
 }

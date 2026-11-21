@@ -9,6 +9,12 @@ GET localhost:8081/api/skus
 
 ###
 
+
+###
+GET localhost:8081/api/areatypes
+
+###
+
 ###
 POST http://localhost:8081/api/skus
 Content-Type: application/json

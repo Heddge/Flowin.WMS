@@ -17,25 +17,25 @@ public class AreaType {
     @NotNull
     @NotBlank
     @Column(name = "area_type_name")
-    private String typeName;
+    private String areaTypeName;
 
     public AreaType() {}
     public AreaType(String _typeName)
     {
-        typeName = _typeName;
+        areaTypeName = _typeName;
     }
 
     public AreaType(Integer _id, String _typeName)
     {
         Id = _id;
-        typeName= _typeName;
+        areaTypeName= _typeName;
     }
 
     public Integer getId() {
         return Id;
     }
 
-    public String getTypeName() {
-        return typeName;
+    public String getAreaTypeName() {
+        return areaTypeName;
     }
 }

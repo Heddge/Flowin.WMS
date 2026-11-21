@@ -98,4 +98,17 @@ public class GlobalExceptionController {
                 )
         );
     }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ExceptionResponses.EntityNotFoundResponse> handleEntityNotFoundException(
+            EntityNotFoundException exception)
+    {
+        return ResponseEntity.status(404).body(
+                new ExceptionResponses.EntityNotFoundResponse(
+                        404,
+                        exception.getExceptionMessage(),
+                        exception.getExceptionEntity()
+                )
+        );
+    }
 }

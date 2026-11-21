@@ -44,4 +44,11 @@ public class ExceptionResponses {
             String failedArgument
     ) {
     }
+
+    public record EntityNotFoundResponse(
+            int code,
+            String message,
+            String failedArgument
+    ) {
+    }
 }

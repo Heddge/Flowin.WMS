@@ -20,4 +20,25 @@ public class StoragePlace {
     @NotEmpty
     @Column(name = "info")
     private String info;
+
+    public StoragePlace() {}
+
+    public StoragePlace(String _info)
+    {
+        info = _info;
+    }
+
+    public StoragePlace(Integer _id, String _info)
+    {
+        Id = _id;
+        info = _info;
+    }
+
+    public Integer getId() {
+        return Id;
+    }
+
+    public String getInfo() {
+        return info;
+    }
 }

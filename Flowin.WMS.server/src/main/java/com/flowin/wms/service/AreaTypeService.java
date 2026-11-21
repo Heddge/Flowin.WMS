@@ -49,16 +49,16 @@ public class AreaTypeService {
                     "PLACED: AreaTypeService::getAreaTypeByName(name)"
             );
 
-        AreaType response = repository.findByAreaTypeName(name);
+        var response = repository.findByAreaTypeName(name);
 
-        if (response == null)
+        if (response.isEmpty())
             throw new EntityNotFoundException(
                     "ERROR: Entity not found.",
                     String.format("ENTITY: AreaType with name %s", name),
                     "PLACED: AreaTypeService::getAreaTypeByName(name)"
             );
 
-        return mapper.toAreaTypeResponse(response);
+        return mapper.toAreaTypeResponse(response.get());
     }
 
     @Transactional

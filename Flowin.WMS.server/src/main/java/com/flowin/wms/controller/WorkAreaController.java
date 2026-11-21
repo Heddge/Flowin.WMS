@@ -3,10 +3,9 @@ package com.flowin.wms.controller;
 import com.flowin.wms.dto.WorkAreaDto.*;
 import com.flowin.wms.exception.WorkAreaNotFoundException;
 import com.flowin.wms.service.WorkAreaService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,5 +34,11 @@ public class WorkAreaController {
     public ResponseEntity<WorkAreaResponse> getWorkAreaById(@PathVariable("id") Integer id)
     {
         return ResponseEntity.ok().body(service.getWorkAreaById(id));
+    }
+
+    @PostMapping("/api/workareas")
+    public ResponseEntity<WorkAreaResponse> postWorkArea(@Valid @RequestBody WorkAreaRequest request)
+    {
+        return ResponseEntity.ok().body(service.postWorkArea(request));
     }
 }

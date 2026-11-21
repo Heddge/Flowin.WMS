@@ -5,6 +5,7 @@ import com.flowin.wms.entity.Area;
 import com.flowin.wms.entity.StoragePlace;
 import com.flowin.wms.exception.EntityNotFoundException;
 import com.flowin.wms.exception.InvalidArgumentException;
+import com.flowin.wms.exception.PresenceOfDependentEntitiesException;
 import com.flowin.wms.mapper.AreaMapper;
 import com.flowin.wms.repository.*;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.List;
 @Transactional
 public class AreaService {
     private final AreaRepository areaRepository;
-    private final StoragePlaceRepository storagePlaceRepository;
+    private final StoragePlaceService storagePlaceService;
     private final WarehouseService warehouseService;
     private final AreaTypeService areaTypeService;
     private final WorkAreaService workAreaService;
@@ -24,10 +25,10 @@ public class AreaService {
 
     public AreaService(AreaRepository areaRepo, WarehouseService whService,
                        AreaTypeService atservice, WorkAreaService waservice,
-                       StoragePlaceRepository storagePlaceRepo, AreaMapper map)
+                       StoragePlaceService storagePlaceSer, AreaMapper map)
     {
         areaRepository = areaRepo;
-        storagePlaceRepository = storagePlaceRepo;
+        storagePlaceService = storagePlaceSer;
         warehouseService = whService;
         areaTypeService = atservice;
         workAreaService = waservice;
@@ -72,17 +73,23 @@ public class AreaService {
                     "AreaService::postArea"
             );
 
-        var responseStoragePlace = storagePlaceRepository.findById(request.areaId());
-
-        if (responseStoragePlace.isEmpty())
-            throw new EntityNotFoundException(
-                    String.format("ERROR: There isn't storage place for area with id %d", request.areaId()),
-                    String.format("ENTITY: Storage place with id %d", request.areaId()),
-                    "PLACED: AreaService::postArea."
+        var storage_place = storagePlaceService.getStoragePlaceByIdEntity(request.areaId());
+        if (!storage_place.getIsActive())
+            throw new PresenceOfDependentEntitiesException(
+                    "ERROR: Can't add area with that storage place because it's deactivated.",
+                    String.format("ENTITY: Storage place with id %d is deactivated.", request.areaId()),
+                    "PLACED: AreaService::postArea"
             );
 
-        Area requestionArea = new Area(request.areaId(), responseStoragePlace.get(),
-                workAreaService.getWorkAreaByIdEntity(request.areaId()),
+        var work_area = workAreaService.getWorkAreaByIdEntity(request.areaId());
+        if (!work_area.getIsActive())
+            throw new PresenceOfDependentEntitiesException(
+                    "ERROR: Can't add area with that work area because it's deactivated.",
+                    String.format("ENTITY: Work area with id %d is deactivated.", request.areaId()),
+                    "PLACED: AreaService::postArea"
+            );
+
+        Area requestionArea = new Area(request.areaId(), storage_place, work_area,
                 warehouseService.getWarehouseByIdEntity(request.warehouseId()),
                 areaTypeService.getAreaTypeByNameEntity(request.areaType()));
 

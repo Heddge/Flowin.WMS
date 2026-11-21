@@ -68,7 +68,7 @@ public class WorkAreaService {
 
     public WorkArea getWorkAreaByIdEntity(Integer id)
     {
-        if (id < 1)
+        if (id == null || id < 1)
             throw new InvalidArgumentException(
                     "Id was less than 1.",
                     String.format("id: %d", id),
@@ -87,6 +87,11 @@ public class WorkAreaService {
         return response.get();
     }
 
+    public boolean getIsActive(Integer id)
+    {
+        return repository.getIsActiveById(id);
+    }
+
     private List<WorkArea> getWorkAreas()
     {
         return repository.findAll();
@@ -95,5 +100,21 @@ public class WorkAreaService {
     public List<WorkAreaResponse> getWorkAreasDto()
     {
         return getWorkAreas().stream().map(mapper::toWorkAreaResponse).toList();
+    }
+
+    public WorkAreaResponse postWorkArea(WorkAreaRequest request)
+    {
+        // TODO Add checking worker's role and its opportunities
+
+        if (request == null)
+            throw new InvalidArgumentException(
+                    "ERROR: Request was null.",
+                    "ARGUMENT: Request",
+                    "PLACED: WorkAreaService::postWorkArea"
+            );
+
+        var requesting = new WorkArea(request.name(), true);
+
+        return mapper.toWorkAreaResponse(repository.save(requesting));
     }
 }

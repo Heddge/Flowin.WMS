@@ -15,6 +15,12 @@ GET localhost:8081/api/areatypes
 
 ###
 
+
+###
+GET localhost:8081/api/warehouses/Ozon 1
+
+###
+
 ###
 POST http://localhost:8081/api/skus
 Content-Type: application/json

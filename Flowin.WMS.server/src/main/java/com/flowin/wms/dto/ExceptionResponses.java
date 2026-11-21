@@ -51,4 +51,11 @@ public class ExceptionResponses {
             String failedArgument
     ) {
     }
+
+    public record PresenceOfDependentEntitiesResponse(
+            int code,
+            String message,
+            String failedEntity
+    ){
+    }
 }

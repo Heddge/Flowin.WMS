@@ -111,4 +111,17 @@ public class GlobalExceptionController {
                 )
         );
     }
+
+    @ExceptionHandler(PresenceOfDependentEntitiesException.class)
+    public ResponseEntity<ExceptionResponses.PresenceOfDependentEntitiesResponse> handlePresenceOfDependentException(
+            PresenceOfDependentEntitiesException exception)
+    {
+        return ResponseEntity.status(424).body(
+                new ExceptionResponses.PresenceOfDependentEntitiesResponse(
+                        424,
+                        exception.getExceptionMessage(),
+                        exception.getExceptionEntity()
+                )
+        );
+    }
 }

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 public class WorkAreaMapper {
     public WorkAreaResponse toWorkAreaResponse(WorkArea workArea)
     {
-        return new WorkAreaResponse(workArea.getId(), workArea.getName());
+        return new WorkAreaResponse(workArea.getId(), workArea.getName(), workArea.getIsActive());
     }
 }

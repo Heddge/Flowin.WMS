@@ -8,7 +8,9 @@ public class WorkAreaDto {
             @Min(value = 0)
             Integer id,
             @NotNull
-            String name
+            String name,
+            @NotNull
+            Boolean isActive
     )
     {}
 

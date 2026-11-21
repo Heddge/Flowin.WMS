@@ -17,20 +17,20 @@ import java.util.List;
 public class AreaService {
     private final AreaRepository areaRepository;
     private final StoragePlaceRepository storagePlaceRepository;
-    private final WarehouseRepository warehouseRepository;
-    private final AreaTypeRepository areaTypeRepository;
-    private final WorkAreaRepository workAreaRepository;
+    private final WarehouseService warehouseService;
+    private final AreaTypeService areaTypeService;
+    private final WorkAreaService workAreaService;
     private final AreaMapper mapper;
 
-    public AreaService(AreaRepository areaRepo, WarehouseRepository whRepo,
-                       AreaTypeRepository atrepo, WorkAreaRepository warepo,
+    public AreaService(AreaRepository areaRepo, WarehouseService whService,
+                       AreaTypeService atservice, WorkAreaService waservice,
                        StoragePlaceRepository storagePlaceRepo, AreaMapper map)
     {
         areaRepository = areaRepo;
         storagePlaceRepository = storagePlaceRepo;
-        warehouseRepository = whRepo;
-        areaTypeRepository = atrepo;
-        workAreaRepository = warepo;
+        warehouseService = whService;
+        areaTypeService = atservice;
+        workAreaService = waservice;
         mapper = map;
     }
 
@@ -81,35 +81,10 @@ public class AreaService {
                     "PLACED: AreaService::postArea."
             );
 
-        var responseWorkArea = workAreaRepository.findById(request.areaId());
-
-        if (responseWorkArea.isEmpty())
-            throw new EntityNotFoundException(
-                    String.format("ERROR: There isn't WorkArea for area with id %d", request.areaId()),
-                    String.format("ENTITY: WorkArea with id %d", request.areaId()),
-                    "PLACED: AreaService::postArea."
-            );
-
-        var responseWarehouse = warehouseRepository.findById(request.warehouseId());
-
-        if (responseWarehouse.isEmpty())
-            throw new EntityNotFoundException(
-                    String.format("ERROR: There isn't warehouse for area with id %d", request.warehouseId()),
-                    String.format("ENTITY: Warehouse with id %d", request.warehouseId()),
-                    "PLACED: AreaService::postArea."
-            );
-
-        var responseAreaType = areaTypeRepository.findByAreaTypeName(request.areaType());
-
-        if (responseAreaType.isEmpty())
-            throw new EntityNotFoundException(
-                    String.format("ERROR: There isn't area type for area with name %s", request.areaType()),
-                    String.format("ENTITY: AreaType with name %s", request.areaType()),
-                    "PLACED: AreaService::postArea."
-            );
-
         Area requestionArea = new Area(request.areaId(), responseStoragePlace.get(),
-                responseWorkArea.get(),responseWarehouse.get(), responseAreaType.get());
+                workAreaService.getWorkAreaByIdEntity(request.areaId()),
+                warehouseService.getWarehouseByIdEntity(request.warehouseId()),
+                areaTypeService.getAreaTypeByNameEntity(request.areaType()));
 
         return mapper.toAreaResponse(areaRepository.save(requestionArea));
     }

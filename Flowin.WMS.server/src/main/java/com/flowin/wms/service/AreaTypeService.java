@@ -9,7 +9,6 @@ import com.flowin.wms.repository.AreaTypeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.awt.geom.Area;
 import java.util.List;
 
 @Service
@@ -59,6 +58,29 @@ public class AreaTypeService {
             );
 
         return mapper.toAreaTypeResponse(response.get());
+    }
+
+
+    @Transactional(readOnly = true)
+    public AreaType getAreaTypeByNameEntity(String name)
+    {
+        if (name.isBlank())
+            throw new InvalidArgumentException(
+                    "ERROR: Invalid argument name.",
+                    "ARGUMENT: name",
+                    "PLACED: AreaTypeService::getAreaTypeByName(name)"
+            );
+
+        var response = repository.findByAreaTypeName(name);
+
+        if (response.isEmpty())
+            throw new EntityNotFoundException(
+                    "ERROR: Entity not found.",
+                    String.format("ENTITY: AreaType with name %s", name),
+                    "PLACED: AreaTypeService::getAreaTypeByName(name)"
+            );
+
+        return response.get();
     }
 
     @Transactional

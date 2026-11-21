@@ -24,15 +24,13 @@ public class CatalogueSkuService {
     private final CatalogueSkuRepository repository;
     private final CatalogueSkuMapper catalogueSkuMapper;
     private final SkuCategoryService skuCategoryService;
-    private final MapperBuilder mapperBuilder;
 
     public CatalogueSkuService(CatalogueSkuRepository repo, CatalogueSkuMapper catSkuMapper,
-                               SkuCategoryService _skuCategoryService, MapperBuilder mapperBuilder)
+                               SkuCategoryService _skuCategoryService)
     {
         this.repository = repo;
         this.catalogueSkuMapper = catSkuMapper;
         this.skuCategoryService = _skuCategoryService;
-        this.mapperBuilder = mapperBuilder;
     }
 
     @Transactional(readOnly = true)

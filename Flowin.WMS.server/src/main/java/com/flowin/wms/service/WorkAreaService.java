@@ -65,6 +65,28 @@ public class WorkAreaService {
         return mapper.toWorkAreaResponse(response.get());
     }
 
+
+    public WorkArea getWorkAreaByIdEntity(Integer id)
+    {
+        if (id < 1)
+            throw new InvalidArgumentException(
+                    "Id was less than 1.",
+                    String.format("id: %d", id),
+                    "WorkAreaService::getWorkAreaById"
+            );
+
+        var response = repository.findById(id);
+
+        if (response.isEmpty())
+            throw new WorkAreaNotFoundException(
+                    "There isn`t WorkArea with that id",
+                    String.format("finder: %d", id),
+                    "WorkAreaService::getWorkAreaById"
+            );
+
+        return response.get();
+    }
+
     private List<WorkArea> getWorkAreas()
     {
         return repository.findAll();

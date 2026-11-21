@@ -1,0 +1,2 @@
+ALTER TABLE work_areas
+ADD is_active BOOLEAN DEFAULT TRUE;

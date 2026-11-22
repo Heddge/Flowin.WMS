@@ -124,4 +124,18 @@ public class GlobalExceptionController {
                 )
         );
     }
+
+    @ExceptionHandler(NeededEntityDisabledException.class)
+    public ResponseEntity<ExceptionResponses.NeededEntityDisabledResponse> handleNeededEntityDesabledException(
+            NeededEntityDisabledException exception
+    )
+    {
+        return ResponseEntity.status(422).body(
+                new ExceptionResponses.NeededEntityDisabledResponse(
+                        422,
+                        exception.getExceptionMessage(),
+                        exception.getDisabledEntity()
+                )
+        );
+    }
 }

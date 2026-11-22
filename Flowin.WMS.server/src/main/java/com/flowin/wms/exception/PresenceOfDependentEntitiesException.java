@@ -1,5 +1,6 @@
 package com.flowin.wms.exception;
 
+/// Наличие зависимых сущностей.
 public class PresenceOfDependentEntitiesException extends RuntimeException {
     private final String exceptionMessage;
     private final String exceptionEntity;

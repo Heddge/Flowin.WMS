@@ -58,4 +58,11 @@ public class ExceptionResponses {
             String failedEntity
     ){
     }
+
+    public record NeededEntityDisabledResponse(
+            int code,
+            String message,
+            String disabledEntity
+    ){
+    }
 }

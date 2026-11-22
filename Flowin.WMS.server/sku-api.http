@@ -48,6 +48,20 @@ Accept: application/json
 }
 ###
 
+###
+GET http://localhost:8081/api/zones
+
+###
+
+###
+GET http://localhost:8081/api/areas
+
+###
+
+###
+GET http://localhost:8081/api/skucategories
+
+###
 
 ###
 PUT http://localhost:8081/api/skucategories/id/3

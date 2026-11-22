@@ -1,7 +1,9 @@
 package com.flowin.wms.area;
 
 import com.flowin.wms.areatype.AreaType;
+import com.flowin.wms.areatype.AreaTypeDto;
 import com.flowin.wms.warehouse.Warehouse;
+import com.flowin.wms.warehouse.WarehouseDto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -13,9 +15,9 @@ public class AreaDto{
             @Min(value = 1)
             Integer areaId,
             @NotNull
-            Warehouse warehouse,
+            WarehouseDto.WarehouseResponse warehouse,
             @NotNull
-            AreaType areaType
+            AreaTypeDto.AreaTypeResponse areaType
     ){}
 
     public record AreaRequest(

@@ -1,8 +1,8 @@
 package com.flowin.wms.zone;
 
-import com.flowin.wms.skucategory.SkuCategory;
-import com.flowin.wms.warehouse.Warehouse;
-import com.flowin.wms.workarea.WorkArea;
+import com.flowin.wms.skucategory.SkuCategoryDto;
+import com.flowin.wms.warehouse.WarehouseDto;
+import com.flowin.wms.workarea.WorkAreaDto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -11,9 +11,9 @@ import jakarta.validation.constraints.NotNull;
 public class ZoneDto {
     public record ZoneResponse(
             Integer zoneId,
-            WorkArea zoneWorkArea,
-            SkuCategory zoneSkuCategory,
-            Warehouse zoneWh
+            WorkAreaDto.WorkAreaResponse zoneWorkArea,
+            SkuCategoryDto.SkuCategoryResponse zoneSkuCategory,
+            WarehouseDto.WarehouseResponse zoneWh
     ){}
 
     public record ZoneRequest(

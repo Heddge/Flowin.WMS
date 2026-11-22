@@ -17,14 +17,14 @@ public class ZoneDto {
     ){}
 
     public record ZoneRequest(
-            @NotNull
+            @NotNull(message = "VALIDATION ERROR. Value must be not null. ZoneRequest::workAreaId")
             @Min(value = 1)
             Integer workAreaId,
-            @NotNull
+            @NotNull(message = "VALIDATION ERROR. Value must be not null. ZoneRequest::skuCategoryName")
             @NotEmpty
             @NotBlank
             String skuCategoryName,
-            @NotNull
+            @NotNull(message = "VALIDATION ERROR. Value must be not null. ZoneRequest::whId")
             @Min(value = 1)
             Integer whId
     ){}

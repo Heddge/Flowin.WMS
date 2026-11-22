@@ -7,17 +7,17 @@ import jakarta.validation.constraints.NotNull;
 
 public class AreaTypeDto {
     public record AreaTypeResponse(
-            @NotNull
+            @NotNull(message = "VALIDATION ERROR. Value must be not null. AreaTypeResponse::areaTypeId")
             @Min(value = 1)
             Integer areaTypeId,
-            @NotNull
+            @NotNull(message = "VALIDATION ERROR. Value must be not null. AreaTypeResponse::areaTypeName")
             @NotEmpty
             @NotBlank
             String areaTypeName
     ){}
 
     public record AreaTypeRequest(
-            @NotNull
+            @NotNull(message = "VALIDATION ERROR. Value must be not null. AreaTypeRequest::areaTypeName")
             @NotEmpty
             @NotBlank
             String areaTypeName

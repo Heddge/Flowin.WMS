@@ -11,16 +11,17 @@ import jakarta.validation.constraints.NotNull;
 public class WarehouseDto {
     public record WarehouseResponse(
             @Id
+            @NotNull(message = "VALIDATION ERROR. Value must be not null. WarehouseResponse::id")
             @GeneratedValue(strategy = GenerationType.IDENTITY)
             @Min(value = 1)
             Integer id,
-            @NotNull
+            @NotNull(message = "VALIDATION ERROR. Value must be not null. WarehouseResponse::name")
             @NotBlank
             @NotEmpty
             String name
     ){}
     public record WarehouseRequest(
-            @NotNull
+            @NotNull(message = "VALIDATION ERROR. Value must be not null. WarehouseResponse::name")
             @NotBlank
             @NotEmpty
             String name

@@ -10,7 +10,7 @@ public class SkuCategoryDto {
     {}
 
     public record SkuCategoryRequest(
-            @NotNull
+            @NotNull(message = "VALIDATION ERROR. Value must be not null. SkuCategoryRequest::skuCategoryName")
             String skuCategoryName
     )
     {}

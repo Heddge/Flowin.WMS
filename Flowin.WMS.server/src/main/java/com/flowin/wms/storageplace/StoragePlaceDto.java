@@ -12,7 +12,7 @@ public class StoragePlaceDto {
     ){}
 
     public record StoragePlaceRequest(
-            @NotNull
+            @NotNull(message = "VALIDATION ERROR. Value must be not null. WarehouseResponse::storagePlaceInfo")
             @NotBlank
             @NotEmpty
             String storagePlaceInfo

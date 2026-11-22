@@ -34,11 +34,13 @@ public class ZoneService {
         warehouseService = ws;
     }
 
+    @Transactional(readOnly = true)
     public List<ZoneDto.ZoneResponse> getZones()
     {
         return repository.findAll().stream().map(mapper::toZoneResponse).toList();
     }
 
+    @Transactional(readOnly = true)
     public Zone getZoneByIdEntity(Integer id)
     {
         if (id == null || id < 1)
@@ -60,11 +62,13 @@ public class ZoneService {
         return response.get();
     }
 
+    @Transactional(readOnly = true)
     public ZoneDto.ZoneResponse getZoneById(Integer id)
     {
         return mapper.toZoneResponse(getZoneByIdEntity(id));
     }
 
+    @Transactional
     public ZoneDto.ZoneResponse postZone(ZoneDto.ZoneRequest zoneRequest)
     {
         if (zoneRequest == null)

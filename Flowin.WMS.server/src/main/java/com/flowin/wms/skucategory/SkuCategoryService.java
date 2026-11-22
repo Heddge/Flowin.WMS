@@ -168,6 +168,7 @@ public class SkuCategoryService {
         }
     }
 
+    @Transactional
     public SkuCategoryResponse deleteSkuCategoryById(Integer id)
     {
         if (id == null || id < 1)
@@ -190,6 +191,7 @@ public class SkuCategoryService {
         }
     }
 
+    @Transactional
     public SkuCategoryResponse deleteSkuCategoryByName(String name)
     {
         if (name == null || name.isBlank())

@@ -46,23 +46,7 @@ public class WorkAreaService {
 
     public WorkAreaResponse getWorkAreaById(Integer id)
     {
-        if (id < 1)
-            throw new InvalidArgumentException(
-                    "Id was less than 1.",
-                    String.format("id: %d", id),
-                    "WorkAreaService::getWorkAreaById"
-            );
-
-        var response = repository.findById(id);
-
-        if (response.isEmpty())
-            throw new WorkAreaNotFoundException(
-                    "There isn`t WorkArea with that id",
-                    String.format("finder: %d", id),
-                    "WorkAreaService::getWorkAreaById"
-            );
-
-        return mapper.toWorkAreaResponse(response.get());
+        return mapper.toWorkAreaResponse(getWorkAreaByIdEntity(id));
     }
 
 

@@ -17,15 +17,13 @@ public class AreaTypeService {
     private final AreaTypeRepository repository;
     private final AreaTypeMapper mapper;
 
-    public AreaTypeService(AreaTypeRepository repo, AreaTypeMapper map)
-    {
+    public AreaTypeService(AreaTypeRepository repo, AreaTypeMapper map) {
         repository = repo;
         mapper = map;
     }
 
     @Transactional(readOnly = true)
-    public List<AreaTypeResponse> getAreaTypes()
-    {
+    public List<AreaTypeResponse> getAreaTypes() {
         List<AreaType> response = repository.findAll();
 
         if (response.isEmpty())
@@ -39,31 +37,13 @@ public class AreaTypeService {
     }
 
     @Transactional(readOnly = true)
-    public AreaTypeResponse getAreaTypeByName(String name)
-    {
-        if (name.isBlank())
-            throw new InvalidArgumentException(
-                    "ERROR: Invalid argument name.",
-                    "ARGUMENT: name",
-                    "PLACED: AreaTypeService::getAreaTypeByName(name)"
-            );
-
-        var response = repository.findByAreaTypeName(name);
-
-        if (response.isEmpty())
-            throw new EntityNotFoundException(
-                    "ERROR: Entity not found.",
-                    String.format("ENTITY: AreaType with name %s", name),
-                    "PLACED: AreaTypeService::getAreaTypeByName(name)"
-            );
-
-        return mapper.toAreaTypeResponse(response.get());
+    public AreaTypeResponse getAreaTypeByName(String name) {
+        return mapper.toAreaTypeResponse(getAreaTypeByNameEntity(name));
     }
 
 
     @Transactional(readOnly = true)
-    public AreaType getAreaTypeByNameEntity(String name)
-    {
+    public AreaType getAreaTypeByNameEntity(String name) {
         if (name.isBlank())
             throw new InvalidArgumentException(
                     "ERROR: Invalid argument name.",
@@ -84,8 +64,7 @@ public class AreaTypeService {
     }
 
     @Transactional
-    public AreaTypeResponse postAreaType(AreaTypeRequest request)
-    {
+    public AreaTypeResponse postAreaType(AreaTypeRequest request) {
         if (request == null)
             throw new InvalidArgumentException(
                     "ERROR: Invalid argument request.",

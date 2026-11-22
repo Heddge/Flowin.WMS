@@ -31,23 +31,7 @@ public class StoragePlaceService {
 
     public StoragePlaceResponse getStoragePlaceById(Integer id)
     {
-        if (id == null || id < 1)
-            throw new InvalidArgumentException(
-                    "ERROR: Id was null or less than 1.",
-                    "ARGUMENT: id.",
-                    "PLACED: StoragePlaceService::getStoragePlaceById."
-            );
-
-        var response = repository.findById(id);
-
-        if (response.isEmpty())
-            throw new EntityNotFoundException(
-                    String.format("ERROR: There isn't storage place with id %d", id),
-                    String.format("ENTITY: Storage place with id %d", id),
-                    "PLACED: StoragePlaceService::getStoragePlaceById."
-            );
-
-        return mapper.toStoragePlaceResponse(response.get());
+        return mapper.toStoragePlaceResponse(getStoragePlaceByIdEntity(id));
     }
 
 

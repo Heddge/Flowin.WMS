@@ -51,16 +51,7 @@ public class WarehouseService {
 
     public WarehouseResponse getWarehouseById(Integer id)
     {
-        var response = repository.findById(id);
-
-        if (response.isEmpty())
-            throw new EntityNotFoundException(
-                    String.format("ERROR: There isn't warehouse for area with id %d", id),
-                    String.format("ENTITY: Warehouse with id %d", id),
-                    "PLACED: AreaService::postArea."
-            );
-
-        return mapper.toWarehouseResponse(response.get());
+        return mapper.toWarehouseResponse(getWarehouseByIdEntity(id));
     }
 
 

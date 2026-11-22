@@ -2,7 +2,6 @@ package com.flowin.wms.service;
 
 import com.flowin.wms.dto.AreaDto.*;
 import com.flowin.wms.entity.Area;
-import com.flowin.wms.entity.StoragePlace;
 import com.flowin.wms.exception.EntityNotFoundException;
 import com.flowin.wms.exception.InvalidArgumentException;
 import com.flowin.wms.exception.PresenceOfDependentEntitiesException;
@@ -95,4 +94,6 @@ public class AreaService {
 
         return mapper.toAreaResponse(areaRepository.save(requestionArea));
     }
+
+    // TODO Deactivation func checking SKUs in it before disabling. Disabling in storage_places.is_active.
 }

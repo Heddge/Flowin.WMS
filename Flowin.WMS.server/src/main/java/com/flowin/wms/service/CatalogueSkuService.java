@@ -61,14 +61,7 @@ public class CatalogueSkuService {
     @Transactional(readOnly = true)
     public CatalogueSkuResponse getSkuByIdDto(Integer catalogueId)
     {
-        if (catalogueId == null || catalogueId < 1)
-            throw new InvalidArgumentException(
-                    "Value was null or less than zero.",
-                    "catalogueId",
-                    "placed in CatalogueSkuService::getSkuByIdDto(catalogueId).");
-
         return catalogueSkuMapper.toCatalogueSkuResponse(getSkuById(catalogueId));
-
     }
 
     @Transactional(readOnly = true)

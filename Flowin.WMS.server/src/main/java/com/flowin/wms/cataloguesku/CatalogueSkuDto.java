@@ -1,0 +1,57 @@
+package com.flowin.wms.cataloguesku;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
+public class CatalogueSkuDto{
+public record CatalogueSkuRequest(
+        @NotNull(message = "VALIDATION ERROR. skuName value can`t be null.")
+        @NotBlank(message = "VALIDATION ERROR. skuName value can`t be blank.")
+        String skuName,
+        @NotNull(message = "VALIDATION ERROR. skuCategoryName value can`t be null.")
+        @NotBlank(message = "VALIDATION ERROR. skuCategoryName value can`t be blank.")
+        String skuCategoryName,
+        @Min(value = 0, message = "VALIDATION ERROR. volume value can`t be less than 0.")
+        int volume,
+        @Min(value = 0, message = "VALIDATION ERROR. weight value can`t be less than 0.")
+        int weight,
+        @Min(value = 0, message = "VALIDATION ERROR. height value can`t be less than 0.")
+        int height,
+        @Min(value = 0, message = "VALIDATION ERROR. width value can`t be less than 0.")
+        int width,
+        @Min(value = 0, message = "VALIDATION ERROR. length value can`t be less than 0.")
+        int length,
+        @NotNull(message = "VALIDATION ERROR. isActive value can`t be null.")
+        boolean isActive
+) {
+}
+
+
+public record CatalogueSkuResponse(
+        @NotNull(message = "VALIDATION ERROR. skuCode value can`t be null.")
+        @Min(value = 0, message = "VALIDATION ERROR. skuCode value can`t be less than 0.")
+        int skuCode,
+        @NotNull(message = "VALIDATION ERROR. skuName value can`t be null")
+        @NotEmpty(message = "VALIDATION ERROR. skuName value can`t be empty")
+        String skuName,
+        @NotNull(message = "VALIDATION ERROR. skuCategoryName value can`t be null")
+        @NotEmpty(message = "VALIDATION ERROR. skuCategoryName value can`t be empty")
+        String skuCategoryName,
+        @Min(value = 0, message = "VALIDATION ERROR. volume value can`t be less than 0.")
+        int volume,
+        @Min(value = 0, message = "VALIDATION ERROR. weight value can not be less than 0.")
+        //we do not need bean-annotations for null-checking basic types (int in java is not nullable)
+        int weight,
+        @Min(value = 0, message = "VALIDATION ERROR. height value can`t be less than 0.")
+        int height,
+        @Min(value = 0, message = "VALIDATION ERROR. width value can`t be less than 0.")
+        int width,
+        @Min(value = 0, message = "VALIDATION ERROR. length value can`t be less than 0.")
+        int length,
+        @NotNull(message = "VALIDATION ERROR. isActive value can`t be null.")
+        boolean isActive
+)
+{ }
+}

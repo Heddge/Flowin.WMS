@@ -1,0 +1,31 @@
+package com.flowin.wms.skucategory;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "sku_categories")
+public class SkuCategory {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer skuCategoryId;
+    @Column(nullable = false, length = 255)
+    private String skuCategoryName;
+
+    public SkuCategory() {}
+
+    public SkuCategory(String sku_category_name)
+    {
+        skuCategoryName = sku_category_name;
+    }
+
+
+    public SkuCategory(Integer id, String sku_category_name)
+    {
+        skuCategoryId = id;
+        skuCategoryName = sku_category_name;
+    }
+
+    // getters
+    public Integer getCategoryId() { return skuCategoryId; }
+    public String getCategoryName() { return skuCategoryName; }
+}

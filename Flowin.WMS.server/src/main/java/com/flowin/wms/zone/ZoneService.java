@@ -96,7 +96,7 @@ public class ZoneService {
         SkuCategory skuCategoryResponse = skuCategoryService.getCategoryEntityByName(zoneRequest.skuCategoryName());
         Warehouse warehouseResponse = warehouseService.getWarehouseByIdEntity(zoneRequest.whId());
 
-        Zone request = new Zone(zoneRequest.workAreaId(), workAreaResponse, skuCategoryResponse,
+        Zone request = new Zone(workAreaResponse, skuCategoryResponse,
                 warehouseResponse);
 
         return mapper.toZoneResponse(repository.save(request));

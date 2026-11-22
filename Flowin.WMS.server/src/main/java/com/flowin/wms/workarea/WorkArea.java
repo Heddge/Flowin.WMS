@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "work_areas")
 public class WorkArea {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     Integer workAreaId;
     @Column(nullable = false)
     String workAreaName;

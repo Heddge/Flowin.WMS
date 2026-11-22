@@ -38,6 +38,41 @@ Accept: application/json
 ###
 
 
+
+###
+POST http://localhost:8081/api/zones
+Content-Type: application/json
+Accept: application/json
+
+{
+  "workAreaId": 9,
+  "skuCategoryName": "Clothes",
+  "whId": 1
+}
+###
+
+###
+GET http://localhost:8081/api/warehouses
+###
+
+###
+GET http://localhost:8081/api/skucategories
+###
+
+###
+GET http://localhost:8081/api/workareas
+###
+
+###
+POST http://localhost:8081/api/workareas
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "zone clothes"
+}
+###
+
 ###
 POST http://localhost:8081/api/skucategories
 Content-Type: application/json

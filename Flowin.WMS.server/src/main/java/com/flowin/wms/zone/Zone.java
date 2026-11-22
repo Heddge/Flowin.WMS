@@ -6,38 +6,37 @@ import com.flowin.wms.workarea.WorkArea;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.jdbc.Work;
 
 @Entity
 @Table(name="zones")
 public class Zone {
     @Id
-    @NotNull
+    @NotNull(message = "VALIDATION ERROR. Value must be not null. Zone::zoneId")
     @Min(value = 1)
     @Column(name = "zone_id")
     private Integer zoneId;
 
-    @NotNull
+    @NotNull(message = "VALIDATION ERROR. Value must be not null. Zone::zoneWorkArea")
     @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
     @JoinColumn(name = "zone_id")
     private WorkArea zoneWorkArea;
 
-    @NotNull
+    @NotNull(message = "VALIDATION ERROR. Value must be not null. Zone::zoneCategory")
     @ManyToOne(fetch = FetchType.LAZY)
 //    @Column(name = "zone_sku_category_id") -> need JoinColumn
     @JoinColumn(name = "zone_sku_category_id")
     private SkuCategory zoneCategory;
 
-    @NotNull
+    @NotNull(message = "VALIDATION ERROR. Value must be not null. Zone::zoneWarehouse")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "wh_id")
     private Warehouse zoneWarehouse;
 
     public Zone() {}
 
-    public Zone(Integer _id, WorkArea workArea, SkuCategory category, Warehouse warehouse)
+    public Zone(WorkArea workArea, SkuCategory category, Warehouse warehouse)
     {
-        zoneId = _id;
         zoneWorkArea = workArea;
         zoneCategory = category;
         zoneWarehouse=warehouse;

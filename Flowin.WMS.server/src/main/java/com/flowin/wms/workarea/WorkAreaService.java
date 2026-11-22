@@ -83,6 +83,11 @@ public class WorkAreaService {
         return getWorkAreas().stream().map(mapper::toWorkAreaResponse).toList();
     }
 
+    public Long getCountForeignersById(Integer id)
+    {
+        return repository.getCountForeignersById(id);
+    }
+
     public WorkAreaResponse postWorkArea(WorkAreaRequest request)
     {
         // TODO Add checking worker's role and its opportunities

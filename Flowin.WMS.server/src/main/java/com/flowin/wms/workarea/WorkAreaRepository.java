@@ -10,4 +10,7 @@ public interface WorkAreaRepository extends JpaRepository<WorkArea, Integer> {
 
     @Query("select wa.isActive from WorkArea wa where wa.workAreaId = :id")
     public boolean getIsActiveById(Integer id);
+
+    @Query("select count(*) from Zone z join Area a on z.zoneId = a.areaId where z.zoneId = :id")
+    public Long getCountForeignersById(Integer id);
 }

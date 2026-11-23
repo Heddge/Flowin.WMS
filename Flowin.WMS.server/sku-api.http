@@ -17,7 +17,7 @@ GET localhost:8081/api/areatypes
 
 
 ###
-GET localhost:8081/api/warehouses/Ozon 1
+GET localhost:8081/api/warehouses
 
 ###
 
@@ -37,8 +37,36 @@ Accept: application/json
 }
 ###
 
+###
+GET http://localhost:8081/api/areas
+###
 
+###
+POST http://localhost:8081/api/areas
+Content-Type: application/json
+Accept: application/json
 
+{
+  "areaId": 17,
+  "areaType": "packing area",
+  "warehouseId": 1
+}
+###
+
+###
+GET http://localhost:8081/api/storageplaces
+###
+
+###
+POST http://localhost:8081/api/storageplaces
+Content-Type: application/json
+Accept: application/json
+
+{
+  "storagePlaceInfo": "packing area",
+  "needWorkArea": true
+}
+###
 ###
 POST http://localhost:8081/api/zones
 Content-Type: application/json

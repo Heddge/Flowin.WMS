@@ -12,9 +12,13 @@ public class StoragePlace {
     @Id
     @NotNull
     @Min(value = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+    generator = "storage_work_area_id_generator")
+    @SequenceGenerator(name = "storage_work_area_id_generator",
+    sequenceName = "storage_work_area_id_seq",
+    allocationSize = 1)
     @Column(name = "storage_place_id")
-    private Integer Id;
+    private Long Id;
     @NotNull
     @NotBlank
     @NotEmpty
@@ -33,14 +37,7 @@ public class StoragePlace {
         isActive = _isActive;
     }
 
-    public StoragePlace(Integer _id, String _info,Boolean _isActive)
-    {
-        Id = _id;
-        info = _info;
-        isActive = _isActive;
-    }
-
-    public Integer getId() {
+    public Long getId() {
         return Id;
     }
 

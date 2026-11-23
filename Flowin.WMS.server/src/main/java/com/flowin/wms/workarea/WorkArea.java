@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 @Table(name = "work_areas")
 public class WorkArea {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    Integer workAreaId;
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    Long workAreaId;
     @Column(nullable = false)
     String workAreaName;
     @Column(nullable = false, name = "is_active")
@@ -15,13 +15,14 @@ public class WorkArea {
 
     public WorkArea() {}
 
-    public WorkArea(String _name, Boolean _isActive)
+    public WorkArea(Long id, String _name, Boolean _isActive)
     {
+        workAreaId = id;
         workAreaName = _name;
         isActive = _isActive;
     }
 
-    public Integer getId() {return workAreaId;}
+    public Long getId() {return workAreaId;}
     public String getName() {return workAreaName;}
     public Boolean getIsActive() {return isActive;}
 }

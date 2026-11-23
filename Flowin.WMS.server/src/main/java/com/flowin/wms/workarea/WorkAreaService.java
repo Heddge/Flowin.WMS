@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -46,6 +47,16 @@ public class WorkAreaService {
         return mapper.toWorkAreaResponse(getWorkAreaByIdEntity(id));
     }
 
+    public Optional<WorkArea> getWorkAreaByIdOptionalEntity(Integer id)
+    {
+        if (id == null || id < 1)
+            throw new InvalidArgumentException(
+                    "Id was less than 1.",
+                    String.format("id: %d", id),
+                    "WorkAreaService::getWorkAreaById"
+            );
+        return repository.findById(id);
+    }
 
     public WorkArea getWorkAreaByIdEntity(Integer id)
     {
@@ -99,8 +110,21 @@ public class WorkAreaService {
                     "PLACED: WorkAreaService::postWorkArea"
             );
 
-        var requesting = new WorkArea(request.name(), true);
+        var newId = repository.getNewId();
+        var requesting = new WorkArea(newId, request.name(), true);
 
         return mapper.toWorkAreaResponse(repository.save(requesting));
+    }
+
+    public WorkAreaResponse postWorkAreaFromEntity(WorkArea request)
+    {
+        if (request == null)
+            throw new InvalidArgumentException(
+                    "ERROR: Request was null.",
+                    "ARGUMENT: Request",
+                    "PLACED: WorkAreaService::postWorkAreaFromEntity"
+            );
+
+        return mapper.toWorkAreaResponse(repository.save(request));
     }
 }

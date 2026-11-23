@@ -79,7 +79,7 @@ public class ZoneService {
             );
 
         WorkArea workAreaResponse = workAreaService.getWorkAreaByIdEntity(zoneRequest.workAreaId());
-        if (workAreaService.getCountForeignersById(workAreaResponse.getId()) != 0)
+        if (workAreaService.getCountForeignersById(workAreaResponse.getId().intValue()) != 0)
             throw new PresenceOfDependentEntitiesException(
                     String.format("ERROR: Existing related entities from WorkArea with id %d", zoneRequest.workAreaId()),
                     String.format("ENTITY: WorkArea with id %d has related entities from it", zoneRequest.workAreaId()),

@@ -12,18 +12,17 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "areas")
 public class Area {
     @Id
-    @NotNull
-    @Min(value = 1)
     @Column(name = "area_id")
-    private Integer areaId;
+    private Long areaId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "area_id")
+    @MapsId
     @NotNull
     private StoragePlace storagePlace;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "area_id")
+    @JoinColumn(name = "area_id", insertable = false, updatable = false)
     @NotNull
     private WorkArea workArea;
 
@@ -47,7 +46,7 @@ public class Area {
         areaType = type;
     }
 
-    public Area(Integer id, StoragePlace storPlace, WorkArea workAr, Warehouse wh, AreaType type)
+    public Area(Long id, StoragePlace storPlace, WorkArea workAr, Warehouse wh, AreaType type)
     {
         areaId = id;
         storagePlace= storPlace;
@@ -56,7 +55,7 @@ public class Area {
         areaType = type;
     }
 
-    public Integer getAreaId() {
+    public Long getAreaId() {
         return areaId;
     }
 

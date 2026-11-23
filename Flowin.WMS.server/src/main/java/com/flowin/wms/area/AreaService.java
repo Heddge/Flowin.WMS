@@ -89,7 +89,7 @@ public class AreaService {
                     "PLACED: AreaService::postArea"
             );
 
-        Area requestionArea = new Area(request.areaId(), storage_place, work_area,
+        Area requestionArea = new Area(storage_place, work_area,
                 warehouseService.getWarehouseByIdEntity(request.warehouseId()),
                 areaTypeService.getAreaTypeByNameEntity(request.areaType()));
 

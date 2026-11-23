@@ -1,8 +1,13 @@
 package com.flowin.wms.storageplace;
 
+import com.flowin.wms.exception.SavingFailException;
 import com.flowin.wms.storageplace.StoragePlaceDto.*;
 import com.flowin.wms.exception.EntityNotFoundException;
 import com.flowin.wms.exception.InvalidArgumentException;
+import com.flowin.wms.workarea.WorkArea;
+import com.flowin.wms.workarea.WorkAreaDto;
+import com.flowin.wms.workarea.WorkAreaService;
+import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,12 +18,16 @@ import java.util.List;
 public class StoragePlaceService {
     private final StoragePlaceRepository repository;
     private final StoragePlaceMapper mapper;
+    private final WorkAreaService workAreaService;
+    private final EntityManager entityManager;
 
-    public StoragePlaceService(StoragePlaceRepository repo,
-                               StoragePlaceMapper map)
+    public StoragePlaceService(StoragePlaceRepository repo, EntityManager entMan,
+                               StoragePlaceMapper map, WorkAreaService was)
     {
         repository = repo;
         mapper = map;
+        workAreaService = was;
+        entityManager = entMan;
     }
 
     public List<StoragePlaceResponse> getStoragePlaces()
@@ -58,6 +67,7 @@ public class StoragePlaceService {
         return response.get();
     }
 
+    @Transactional
     public StoragePlaceResponse postStoragePlace(StoragePlaceRequest request)
     {
         if (request == null)
@@ -66,8 +76,42 @@ public class StoragePlaceService {
                     "ARGUMENT: Request.",
                     "PLACED: StoragePlaceService::postStoragePlace."
             );
-        var requesting = new StoragePlace(request.storagePlaceInfo(), true);
-        return mapper.toStoragePlaceResponse(repository.save(requesting));
+
+//        System.out.println("trying get new id");
+//        var newId = repository.getNewId();
+//        System.out.println("got new id");
+//        entityManager.persist(new StoragePlace(request.storagePlaceInfo(), true));
+        var requesting = repository.save(new StoragePlace(request.storagePlaceInfo(), true));
+        System.out.println("saved StoragePlace");
+
+//        EntityManager manage = EntityManager.create;
+
+        if (request.needWorkArea())
+        {
+            System.out.println("needing workArea");
+            var workAreaResponse = workAreaService.getWorkAreaByIdOptionalEntity(requesting.getId().intValue());
+            System.out.println("checking extisting workArea");
+            if (workAreaResponse.isEmpty())
+            {
+                System.out.println("workarea doesnt exist");
+                var workAreaRequest = new WorkArea(requesting.getId(), request.storagePlaceInfo(), true);
+                if (workAreaService.postWorkAreaFromEntity(workAreaRequest) == null) {
+                    System.out.println("workarea saving failed");
+
+                    throw new SavingFailException(
+                            String.format("ERROR: Entity workArea for storage place with id %d saving failed", requesting.getId().intValue()),
+                            String.format("ENTITY: workArea with id %d", requesting.getId().intValue()),
+                            "PLACED: StoragePlaceService::postStoragePlace"
+                    );
+
+                }
+                    System.out.println("workarea saved");
+            }
+        }
+        System.out.println("nice!");
+
+        return new StoragePlaceDto.StoragePlaceResponse(requesting.getId(),
+                request.storagePlaceInfo(), true);
     }
 
     public StoragePlaceResponse deactivateStoragePlace(Integer id)

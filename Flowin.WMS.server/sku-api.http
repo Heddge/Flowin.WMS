@@ -42,6 +42,71 @@ GET http://localhost:8081/api/areas
 ###
 
 ###
+GET http://localhost:8081/api/bins
+###
+
+
+###
+GET http://localhost:8081/api/storageplaces
+###
+
+POST http://localhost:8081/api/storageplaces
+Content-Type: application/json
+Accept: application/json
+
+{
+  "storagePlaceInfo": "bin in electronics zone",
+  "needWorkArea": false
+}
+###
+
+###
+GET http://localhost:8081/api/shelves
+###
+
+###
+POST http://localhost:8081/api/shelves
+Content-Type: application/json
+Accept: application/json
+
+{
+  "rackId": 1
+}
+###
+
+###
+GET http://localhost:8081/api/racks
+###
+
+###
+POST http://localhost:8081/api/racks
+Content-Type: application/json
+Accept: application/json
+
+{
+  "zoneId": 7
+}
+###
+###################################################################################
+###
+GET http://localhost:8081/api/zones
+###
+
+###
+POST http://localhost:8081/api/bins
+Content-Type: application/json
+Accept: application/json
+
+{
+  "storagePlaceId": 18,
+  "shelfId": 1,
+  "maxWeight": 10,
+  "maxVolume": 2000,
+  "maxCount": 20
+}
+###
+
+###
 POST http://localhost:8081/api/areas
 Content-Type: application/json
 Accept: application/json

@@ -15,7 +15,7 @@ public class Bin
 {
     @Id
     @Column(name = "bin_id")
-    Integer binId;
+    Long binId;
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY)
@@ -75,7 +75,7 @@ public class Bin
         maxWeight=mWeight;
     }
 
-    public Integer getBinId() {
+    public Long getBinId() {
         return binId;
     }
 

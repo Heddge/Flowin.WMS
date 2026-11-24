@@ -12,7 +12,9 @@ public interface StoragePlaceRepository extends JpaRepository<StoragePlace, Inte
     @Query("select s.isActive from StoragePlace s where s.Id = :id")
     public boolean getIsActiveById(Integer id);
 
-
     @NativeQuery("select nextval('storage_work_area_id_seq')")
     public Long getNewId();
+
+    @NativeQuery("select (select count(*) from bins b where b.bin_id = :id) + (select count(*) from areas a where a.area_id = :id)")
+    public Integer getCountOfRelatedEntitiesById(Integer id);
 }

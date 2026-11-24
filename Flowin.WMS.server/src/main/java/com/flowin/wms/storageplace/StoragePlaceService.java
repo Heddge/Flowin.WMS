@@ -40,6 +40,10 @@ public class StoragePlaceService {
         return mapper.toStoragePlaceResponse(getStoragePlaceByIdEntity(id));
     }
 
+    public Integer getCountOfRelatedEntities(Integer id)
+    {
+        return repository.getCountOfRelatedEntitiesById(id);
+    }
 
     public boolean getIsActive(Integer id)
     {

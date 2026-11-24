@@ -7,7 +7,7 @@ import java.time.Instant;
 
 public class BinDto {
     public record BinResponse(
-            Integer binId,
+            Long binId,
             StoragePlaceDto.StoragePlaceResponse storagePlace,
             ShelfDto.ShelfResponse shelf,
             Instant lastUsedAt,

@@ -10,8 +10,6 @@ import jakarta.validation.constraints.NotNull;
 public class Shelf {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
-    @Min(value = 1)
     Integer shelfId;
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)

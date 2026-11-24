@@ -9,10 +9,8 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 @Entity
 @Table(name = "racks")
 public class Rack {
-    @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Min(value = 1)
     Integer rackId;
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,4 +1,4 @@
-package com.flowin.wms.dto;
+package com.flowin.wms.exception;
 
 public class ExceptionResponses {
     public record CategoryResponse(

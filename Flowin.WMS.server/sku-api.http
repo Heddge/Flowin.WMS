@@ -107,6 +107,10 @@ Accept: application/json
 ###
 
 ###
+GET http://localhost:8081/api/inventory/2
+###
+
+###
 POST http://localhost:8081/api/areas
 Content-Type: application/json
 Accept: application/json

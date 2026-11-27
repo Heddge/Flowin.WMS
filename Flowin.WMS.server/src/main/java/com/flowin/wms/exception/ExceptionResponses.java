@@ -65,4 +65,11 @@ public class ExceptionResponses {
             String disabledEntity
     ){
     }
+
+    public record NotEnoughSpaceResponse(
+            int code,
+            String message,
+            String notEnoughIn
+    ){
+    }
 }

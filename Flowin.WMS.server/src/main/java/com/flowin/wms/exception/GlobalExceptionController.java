@@ -136,4 +136,18 @@ public class GlobalExceptionController {
                 )
         );
     }
+
+    @ExceptionHandler(NotEnoughSpaceException.class)
+    public ResponseEntity<ExceptionResponses.NotEnoughSpaceResponse> handleNotEnoughSpaceException(
+            NotEnoughSpaceException exception
+    )
+    {
+        return ResponseEntity.status(400).body(
+                new ExceptionResponses.NotEnoughSpaceResponse(
+                        400,
+                        exception.getExceptionMessage(),
+                        exception.getNotEnoughIn()
+                )
+        );
+    }
 }

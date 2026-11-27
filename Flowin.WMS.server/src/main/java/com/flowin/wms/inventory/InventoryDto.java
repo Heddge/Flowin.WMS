@@ -26,7 +26,10 @@ public class InventoryDto {
             Integer skuId,
             @NotNull
             @Min(value = 0)
-            Integer reservedCount,
+            Integer volume,
+            @NotNull
+            @Min(value = 0)
+            Integer weight,
             @NotNull
             @Min(value = 0)
             Integer count

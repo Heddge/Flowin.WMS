@@ -98,11 +98,11 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "storagePlaceId": 18,
+  "storagePlaceId": 20,
   "shelfId": 1,
-  "maxWeight": 10,
-  "maxVolume": 2000,
-  "maxCount": 20
+  "maxWeight": 5000,
+  "maxVolume": 3000,
+  "maxCount": 30
 }
 ###
 
@@ -124,6 +124,71 @@ Accept: application/json
 
 ###
 GET http://localhost:8081/api/storageplaces
+###
+
+###
+GET http://localhost:8081/api/bins
+###
+
+
+###
+GET http://localhost:8081/api/shelves
+###
+
+
+###
+POST http://localhost:8081/api/bins
+Content-Type: application/json
+Accept: application/json
+
+{
+  "shelfId": 1,
+  "storagePlaceId": 18,
+  "maxCount": 30,
+  "maxVolume": 3000,
+  "maxWeight": 5000
+}
+###
+
+###
+GET http://localhost:8081/api/locations
+###
+
+###
+GET http://localhost:8081/api/inventory
+###
+
+###
+GET http://localhost:8081/api/bins
+###
+
+###
+POST http://localhost:8081/api/bins/20/add-sku
+Content-Type: application/json
+Accept: application/json
+
+{
+  "locationId": 20,
+  "skuId": 3,
+  "count": 1,
+  "volume": 51,
+  "weight": 500
+}
+###
+
+###
+GET http://localhost:8081/api/skus
+###
+
+###
+POST http://localhost:8081/api/locations
+Content-Type: application/json
+Accept: application/json
+
+{
+  "storagePlaceId": 20,
+  "address": "BIN53"
+}
 ###
 
 ###

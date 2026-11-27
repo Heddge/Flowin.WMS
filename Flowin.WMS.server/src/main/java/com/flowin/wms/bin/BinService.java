@@ -5,6 +5,7 @@ import com.flowin.wms.exception.InvalidArgumentException;
 import com.flowin.wms.exception.NeededEntityDisabledException;
 import com.flowin.wms.exception.PresenceOfDependentEntitiesException;
 import com.flowin.wms.shelf.ShelfService;
+import com.flowin.wms.storageplace.StoragePlace;
 import com.flowin.wms.storageplace.StoragePlaceService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,6 +59,19 @@ public class BinService {
             );
 
         return true;
+    }
+
+    @Transactional(readOnly = true)
+    public StoragePlace getStoragePlace(Integer binId)
+    {
+        if (binId == null || binId < 1)
+            throw new InvalidArgumentException(
+                    "ERROR: Argument id was null or less than 1",
+                    "ARGUMENT: id.",
+                    "PLACED: BinService::getStoragePlace"
+            );
+
+        return repository.getStoragePlace(binId);
     }
 
     @Transactional(readOnly = true)

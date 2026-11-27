@@ -14,7 +14,6 @@ import java.util.List;
 @Service
 @Transactional
 public class InventoryService {
-    private Integer binId;
     private final BalanceRepository balanceRepository;
     private final LocationBalanceRepository locationBalanceRepository;
     private final BinService binService;
@@ -65,7 +64,6 @@ public class InventoryService {
 
     public InventoryDto.LocationInventoryResponse getBinBalance(Integer binId)
     {
-        this.binId = binId;
         if (binId == null || binId < 1)
             throw new InvalidArgumentException(
                     "ERROR: binId was null or less than 1.",
@@ -73,9 +71,7 @@ public class InventoryService {
                     "PLACED: InventoryService::getBinBalance"
             );
 
-        BinDto.BinResponse binResponse = binService.getBinById(binId);
-        StoragePlaceDto.StoragePlaceResponse storagePlace = storagePlaceService.getStoragePlaceById(
-                binResponse.storagePlace().storagePlaceId().intValue());
+        binService.isBinExists(binId);
 
         return mapper.locationBalanceToInventoryResponse(locationBalanceRepository.getBinInventory(binId));
     }

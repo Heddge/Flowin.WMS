@@ -41,6 +41,26 @@ public class BinService {
     }
 
     @Transactional(readOnly = true)
+    public Boolean isBinExists(Integer id)
+    {
+        if (id == null || id < 1)
+            throw new InvalidArgumentException(
+                    "ERROR: Argument id was null or less than 1",
+                    "ARGUMENT: id.",
+                    "PLACED: BinService::isBinExists"
+            );
+
+        if (!repository.existsByBinId(id))
+            throw new EntityNotFoundException(
+                    String.format("ERROR: Bin with id %d not found", id),
+                    String.format("ENTITY: Bin with id %d", id),
+                    "PLACED: BinService::isBinExists"
+            );
+
+        return true;
+    }
+
+    @Transactional(readOnly = true)
     public Bin getBinByIdEntity(Integer id)
     {
         if (id == null || id < 1)

@@ -1,6 +1,7 @@
 package com.flowin.wms.inventory;
 
 import com.flowin.wms.cataloguesku.CatalogueSku;
+import com.flowin.wms.exception.InvalidArgumentException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -47,5 +48,36 @@ public class Balance {
 
     public Integer getCount() {
         return count;
+    }
+
+    public void increaseCount(Integer value)
+    {
+        if (value == null || value < 0)
+            throw new InvalidArgumentException(
+                    "ERROR: Invalid value for increasing count (was null or less than 0).",
+                    "ARGUMENT: Requested to increase count of skus",
+                    "PLACED: Entity-method."
+            );
+
+        this.count += value;
+    }
+
+    public void increaseReservedCount(Integer value)
+    {
+        if (value == null || value < 0)
+            throw new InvalidArgumentException(
+                    "ERROR: Invalid value for increasing count (was null or less than 0).",
+                    "ARGUMENT: Requested to increase count of skus",
+                    "PLACED: Entity-method."
+            );
+
+        if (this.reservedCount + value > this.count)
+            throw new InvalidArgumentException(
+                    "ERROR: Invalid value for increasing reservedCount (reservedCount + value > count).",
+                    "ARGUMENT: Requested to increase reservedCount of skus",
+                    "PLACED: Entity-method."
+            );
+
+        this.reservedCount += value;
     }
 }

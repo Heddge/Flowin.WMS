@@ -1,5 +1,7 @@
 package com.flowin.wms.bin;
 
+import com.flowin.wms.exception.InvalidArgumentException;
+import com.flowin.wms.exception.NotEnoughSpaceException;
 import com.flowin.wms.shelf.Shelf;
 import com.flowin.wms.storageplace.StoragePlace;
 import jakarta.persistence.*;
@@ -113,5 +115,63 @@ public class Bin
 
     public Integer getMaxCount() {
         return maxCount;
+    }
+
+    public void increaseOccupiedCount(Integer value)
+    {
+        if (value == null || value < 0)
+            throw new InvalidArgumentException(
+                    "ERROR: Invalid count for increasing (was null or less than 0).",
+                    "ARGUMENT: Requested to increase count of skus",
+                    "PLACED: Entity-method."
+            );
+
+        if (this.occupiedCount + value > this.maxCount)
+            throw new InvalidArgumentException(
+                    "ERROR: Invalid count for increasing (occupiedCount + value > maxCount).",
+                    "ARGUMENT: Requested to increase occupiedCount of skus",
+                    "PLACED: Entity-method."
+            );
+
+        this.occupiedCount += value;
+    }
+
+    public void increaseOccupiedVolume(Integer value)
+    {
+        if (value == null || value < 0)
+            throw new InvalidArgumentException(
+                    "ERROR: Invalid volume for increasing (was null or less than 0).",
+                    "ARGUMENT: Requested to increase occupiedVolume of skus",
+                    "PLACED: Entity-method."
+            );
+
+        if (this.occupiedVolume + value > this.maxVolume)
+            throw new InvalidArgumentException(
+                    "ERROR: Invalid volume for increasing (occupiedVolume + value > maxVolume).",
+                    "ARGUMENT: Requested to increase volume of skus",
+                    "PLACED: Entity-method."
+            );
+
+        this.occupiedVolume += value;
+    }
+
+
+    public void increaseOccupiedWeight(Integer value)
+    {
+        if (value == null || value < 0)
+            throw new InvalidArgumentException(
+                    "ERROR: Invalid weight for increasing (was null or less than 0).",
+                    "ARGUMENT: Requested to increase occupiedWeight of skus",
+                    "PLACED: Entity-method."
+            );
+
+        if (this.occupiedWeight + value > this.maxWeight)
+            throw new InvalidArgumentException(
+                    "ERROR: Invalid weight for increasing (occupiedWeight + value > maxWeight).",
+                    "ARGUMENT: Requested to increase weight of skus",
+                    "PLACED: Entity-method."
+            );
+
+        this.occupiedWeight += value;
     }
 }

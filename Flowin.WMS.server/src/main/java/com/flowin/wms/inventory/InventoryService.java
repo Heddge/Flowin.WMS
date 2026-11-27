@@ -1,7 +1,11 @@
 package com.flowin.wms.inventory;
 
+import com.flowin.wms.bin.BinDto;
+import com.flowin.wms.bin.BinService;
 import com.flowin.wms.exception.EntityNotFoundException;
 import com.flowin.wms.exception.InvalidArgumentException;
+import com.flowin.wms.storageplace.StoragePlaceDto;
+import com.flowin.wms.storageplace.StoragePlaceService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,17 +14,22 @@ import java.util.List;
 @Service
 @Transactional
 public class InventoryService {
+    private Integer binId;
     private final BalanceRepository balanceRepository;
     private final LocationBalanceRepository locationBalanceRepository;
+    private final BinService binService;
+    private final StoragePlaceService storagePlaceService;
 
     private final InventoryMapper mapper;
 
     public InventoryService(BalanceRepository balRepo, LocationBalanceRepository lbRepo,
-                            InventoryMapper iMap)
+                            InventoryMapper iMap, BinService binS, StoragePlaceService sps)
     {
         balanceRepository = balRepo;
         locationBalanceRepository = lbRepo;
         mapper = iMap;
+        binService = binS;
+        storagePlaceService = sps;
     }
 
     public List<InventoryDto.InventoryResponse> getInventory()
@@ -52,5 +61,22 @@ public class InventoryService {
     public InventoryDto.InventoryResponse getInventoryOfSkuById(Integer skuId)
     {
         return mapper.balanceToInventoryResponse(getInventoryOfSkuByIdEntity(skuId));
+    }
+
+    public InventoryDto.LocationInventoryResponse getBinBalance(Integer binId)
+    {
+        this.binId = binId;
+        if (binId == null || binId < 1)
+            throw new InvalidArgumentException(
+                    "ERROR: binId was null or less than 1.",
+                    "ARGUMENT: binId",
+                    "PLACED: InventoryService::getBinBalance"
+            );
+
+        BinDto.BinResponse binResponse = binService.getBinById(binId);
+        StoragePlaceDto.StoragePlaceResponse storagePlace = storagePlaceService.getStoragePlaceById(
+                binResponse.storagePlace().storagePlaceId().intValue());
+
+        return mapper.locationBalanceToInventoryResponse(locationBalanceRepository.getBinInventory(binId));
     }
 }

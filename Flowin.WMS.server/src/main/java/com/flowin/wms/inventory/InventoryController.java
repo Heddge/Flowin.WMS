@@ -28,4 +28,10 @@ public class InventoryController {
     {
         return ResponseEntity.ok().body(service.getInventoryOfSkuById(skuId));
     }
+
+    @GetMapping("/api/bins/{id}/balance")
+    public ResponseEntity<InventoryDto.LocationInventoryResponse> getBinBalance(@Valid @PathVariable("id") Integer binId)
+    {
+        return ResponseEntity.ok().body(service.getBinBalance(binId));
+    }
 }

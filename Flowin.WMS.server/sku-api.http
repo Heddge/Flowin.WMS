@@ -161,6 +161,10 @@ GET http://localhost:8081/api/workareas
 ###
 
 ###
+GET http://localhost:8081/api/bins/18/balance
+###
+
+###
 POST http://localhost:8081/api/workareas
 Content-Type: application/json
 Accept: application/json

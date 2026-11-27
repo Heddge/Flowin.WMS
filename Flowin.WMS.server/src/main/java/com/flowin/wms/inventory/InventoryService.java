@@ -1,10 +1,10 @@
 package com.flowin.wms.inventory;
 
+import com.flowin.wms.area.AreaService;
 import com.flowin.wms.bin.BinDto;
 import com.flowin.wms.bin.BinService;
 import com.flowin.wms.exception.EntityNotFoundException;
 import com.flowin.wms.exception.InvalidArgumentException;
-import com.flowin.wms.storageplace.StoragePlaceDto;
 import com.flowin.wms.storageplace.StoragePlaceService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,18 +17,21 @@ public class InventoryService {
     private final BalanceRepository balanceRepository;
     private final LocationBalanceRepository locationBalanceRepository;
     private final BinService binService;
+    private final AreaService areaService;
     private final StoragePlaceService storagePlaceService;
 
     private final InventoryMapper mapper;
 
     public InventoryService(BalanceRepository balRepo, LocationBalanceRepository lbRepo,
-                            InventoryMapper iMap, BinService binS, StoragePlaceService sps)
+                            InventoryMapper iMap, BinService binS, StoragePlaceService sps,
+                            AreaService as)
     {
         balanceRepository = balRepo;
         locationBalanceRepository = lbRepo;
         mapper = iMap;
         binService = binS;
         storagePlaceService = sps;
+        areaService = as;
     }
 
     public List<InventoryDto.InventoryResponse> getInventory()
@@ -62,7 +65,7 @@ public class InventoryService {
         return mapper.balanceToInventoryResponse(getInventoryOfSkuByIdEntity(skuId));
     }
 
-    public InventoryDto.LocationInventoryResponse getBinBalance(Integer binId)
+    public List<InventoryDto.LocationInventoryResponse> getBinBalance(Integer binId)
     {
         if (binId == null || binId < 1)
             throw new InvalidArgumentException(
@@ -73,6 +76,23 @@ public class InventoryService {
 
         binService.isBinExists(binId);
 
-        return mapper.locationBalanceToInventoryResponse(locationBalanceRepository.getBinInventory(binId));
+        return locationBalanceRepository.getLocationInventory(binId).stream().map(mapper::locationBalanceToInventoryResponse).toList();
+//        return locationBalanceRepository.getBinInventory(binId);
+    }
+
+    public List<InventoryDto.LocationInventoryResponse> getAreaBalance(Integer areaId)
+    {
+        if (areaId == null || areaId < 1)
+            throw new InvalidArgumentException(
+                    "ERROR: areaId was null or less than 1.",
+                    "ARGUMENT: areaId",
+                    "PLACED: InventoryService::getAreaBalance"
+            );
+
+
+        areaService.isAreaExists(areaId);
+
+        return locationBalanceRepository.getLocationInventory(areaId).stream().map(mapper::locationBalanceToInventoryResponse).toList();
+//        return locationBalanceRepository.getBinInventory(binId);
     }
 }

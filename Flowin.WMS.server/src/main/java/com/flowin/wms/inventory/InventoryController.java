@@ -30,8 +30,14 @@ public class InventoryController {
     }
 
     @GetMapping("/api/bins/{id}/balance")
-    public ResponseEntity<InventoryDto.LocationInventoryResponse> getBinBalance(@Valid @PathVariable("id") Integer binId)
+    public ResponseEntity<List<InventoryDto.LocationInventoryResponse>> getBinBalance(@Valid @PathVariable("id") Integer binId)
     {
         return ResponseEntity.ok().body(service.getBinBalance(binId));
+    }
+
+    @GetMapping("/api/areas/{id}/balance")
+    public ResponseEntity<List<InventoryDto.LocationInventoryResponse>> getAreaBalance(@Valid @PathVariable("id") Integer binId)
+    {
+        return ResponseEntity.ok().body(service.getAreaBalance(binId));
     }
 }

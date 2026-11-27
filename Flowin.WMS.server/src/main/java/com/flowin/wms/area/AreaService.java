@@ -41,6 +41,27 @@ public class AreaService {
         return areaRepository.findAll().stream().map(mapper::toAreaResponse).toList();
     }
 
+
+    @Transactional(readOnly = true)
+    public Boolean isAreaExists(Integer areaId)
+    {
+        if (areaId == null || areaId < 1)
+            throw new InvalidArgumentException(
+                    "ERROR: Argument was null or less than 1.",
+                    "ARGUMENT: id",
+                    "PLACED: AreaService::isAreaExists."
+            );
+
+        if (!areaRepository.existsByAreaId(areaId))
+            throw new EntityNotFoundException(
+                    String.format("ERROR: Area with id %d not found", areaId),
+                    String.format("ENTITY: Area with id %d", areaId),
+                    "PLACED: AreaService::isAreaExists"
+            );
+
+        return true;
+    }
+
     @Transactional(readOnly = true)
     public AreaResponse getAreaById(Integer id)
     {

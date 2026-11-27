@@ -161,7 +161,16 @@ GET http://localhost:8081/api/workareas
 ###
 
 ###
-GET http://localhost:8081/api/bins/19/balance
+GET http://localhost:8081/api/bins/18/balance
+###
+
+
+###
+GET http://localhost:8081/api/areas/8/balance
+###
+
+###
+GET http://localhost:8081/api/areas
 ###
 
 ###

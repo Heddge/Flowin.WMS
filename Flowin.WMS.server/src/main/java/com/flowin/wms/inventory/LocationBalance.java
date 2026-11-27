@@ -89,7 +89,7 @@ public class LocationBalance {
         if (reservedCount + requestedReservedCount > count)
             throw new NotEnoughSpaceException(
                     "ERROR: Not enough skus for reservation (reservated > count).",
-                    String.format("NOTENOUGHIN: LocationBalance with id %d", this.getLocation().getLocationId()),
+                    String.format("NOTENOUGHIN: LocationBalance with id %d", this.getLocation().getLocationId().intValue()),
                     "PLACED: Entity-method"
             );
 

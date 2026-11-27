@@ -9,17 +9,17 @@ import java.util.Objects;
 @Embeddable
 public class LocationBalanceId implements Serializable {
     @Column(name = "location_id")
-    private Integer locationId;
+    private Long locationId;
 
     @Column(name = "sku_id")
-    private Integer skuId;
+    private Long skuId;
 
     public LocationBalanceId() {}
 
     public LocationBalanceId(Integer _locationId, Integer _skuId)
     {
-        locationId = _locationId;
-        skuId = _skuId;
+        locationId = _locationId.longValue();
+        skuId = _skuId.longValue();
     }
 
     @Override

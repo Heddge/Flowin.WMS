@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class LocationDto {
     public record LocationResponse(
-            Integer locationId,
+            Long locationId,
             StoragePlaceDto.StoragePlaceResponse storagePlace,
             String address
     ){}

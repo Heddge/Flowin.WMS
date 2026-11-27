@@ -11,10 +11,11 @@ import jakarta.validation.constraints.NotNull;
 public class Location {
     @Id
     @Column(name = "location_id")
-    private Integer locationId;
+    private Long locationId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id")
+    @MapsId
     private StoragePlace storagePlace;
 
     @NotNull
@@ -27,10 +28,11 @@ public class Location {
     public Location(StoragePlace _storagePlace, String _address)
     {
         storagePlace = _storagePlace;
+//        locationId = storagePlace.getId().intValue();
         address = _address;
     }
 
-    public Integer getLocationId() {
+    public Long getLocationId() {
         return locationId;
     }
 

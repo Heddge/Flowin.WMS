@@ -10,7 +10,7 @@ import jakarta.validation.constraints.NotNull;
 public class CatalogueSku {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer skuCode;
+    private Long skuCode;
     @Column(nullable = false, length = 100)
     private String skuName;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -54,7 +54,7 @@ public class CatalogueSku {
     public CatalogueSku(Integer id, String sku_name, SkuCategory sku_category,
                         int _volume, int _weight, int _height, int _width, int _length, boolean _isActive)
     {
-        skuCode=id;
+        skuCode=id.longValue();
         skuName = sku_name;
         skuCategory = sku_category;
         volume = _volume;
@@ -66,7 +66,7 @@ public class CatalogueSku {
     }
 
     // getters
-    public Integer getSkuCode() {return skuCode;}
+    public Integer getSkuCode() {return skuCode.intValue();}
     public String getSkuName() {return skuName;}
     public SkuCategory getSkuCategory() {return skuCategory;}
     public int getVolume() {return volume;}

@@ -11,10 +11,11 @@ import jakarta.validation.constraints.NotNull;
 public class Balance {
     @Id
     @Column(name = "sku_id")
-    private Integer skuId;
+    private Long skuId;
 
     @OneToOne
     @JoinColumn(name = "sku_id")
+    @MapsId
     private CatalogueSku sku;
 
     @NotNull
@@ -35,7 +36,7 @@ public class Balance {
     }
 
     public Integer getSkuId() {
-        return skuId;
+        return skuId.intValue();
     }
 
     public CatalogueSku getSku() {

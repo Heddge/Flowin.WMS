@@ -10,8 +10,12 @@ import java.util.List;
 @Repository
 public interface LocationBalanceRepository extends JpaRepository<LocationBalance, LocationBalanceId> {
     @Query("select lb from LocationBalance lb left join fetch lb.sku left join fetch lb.location where lb.location.locationId = :id")
-    public List<LocationBalance> getLocationInventory(Integer id);
+    List<LocationBalance> getLocationInventory(Integer id);
 
     @Query("select lb from LocationBalance lb where lb.location.locationId = :id")
-    public LocationBalance getByLocationId(Integer id);
+    LocationBalance getByLocationId(Integer id);
+
+    LocationBalance getByLocationBalanceId(LocationBalanceId id);
+
+    Boolean existsByLocationBalanceId(LocationBalanceId locationBalanceId);
 }
